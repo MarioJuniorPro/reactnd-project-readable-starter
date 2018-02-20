@@ -4,7 +4,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <header className="page__header">Project Readable</header>
+        <header className="page__header">Udacity Readable Project</header>
         <main className="page__main">
           <nav className="posts__categories">
             <ul className="categories-list">

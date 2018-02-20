@@ -30,6 +30,7 @@ html {
   border-right: 0.125rem solid #02ccba;
   border-left: 0.125rem solid #02b3e4;
   background-image: linear-gradient(to right, #02b3e4 0%, #02ccba 100%);
+  text-align: center;
 }
 
 .page__main {
@@ -165,6 +166,7 @@ html {
   flex-direction: column;
   align-items: center;
   padding: 0 0.7rem 0 0.2rem;
+  justify-content: center;
 }
 
 /* VOTE SCORE END */
