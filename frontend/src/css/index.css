@@ -11,11 +11,9 @@ html {
   grid-template-areas:
     'header'
     'main'
-    /* 'main' */
     'footer';
   grid-template-columns: auto;
   grid-template-rows: auto auto auto;
-  /* grid-template-rows: auto; */
 }
 
 .page__header {
@@ -23,8 +21,11 @@ html {
   padding: 1.5rem;
   outline: none;
   color: #fff;
-  /* box-shadow: 5px 5px 25px 0px rgba(46,61,73,0.2); */
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 5px 5px 25px 0px rgba(46,61,73,0.35);
   background-color: #02b3e4;
+  letter-spacing: 0.125rem;
   border: 0.125rem solid transparent;
   border-right: 0.125rem solid #02ccba;
   border-left: 0.125rem solid #02b3e4;
@@ -34,7 +35,6 @@ html {
 .page__main {
   grid-area: main;
   padding: 0 0.5rem;
-  /* height: 100% */
 }
 
 .page__footer {
@@ -61,6 +61,11 @@ html {
   border-radius: 0.25rem;
 }
 
+
+.categories-item:hover {
+  background-color: #d9e4e7;
+}
+
 .categories-item--active {
   background-color: #02b3e4;
   color: #fff;
@@ -75,9 +80,7 @@ html {
   color: #525c65;
 }
 
-.categories-item__link,
-.categories-item__link:hover,
-.categories-item__link:visited {
+.categories-item__link {
   cursor: pointer;
   user-select: none;
   text-align: center;
@@ -93,14 +96,9 @@ html {
   transition: all 0.3s ease;
 }
 
-
 /* POST CARDS  */
-.posts-cards {
-
-}
-
 .posts-card {
-  padding: 0.5rem 0.75rem;
+  padding: 0.9rem 0.75rem;
   margin-top: 0;
   margin-bottom: 1rem;
   text-align: left;
@@ -110,11 +108,52 @@ html {
   border-radius: 0.375rem;
   transition: all 0.3s ease;
   display: flex;
-  /* justify-content: space-between; */
 }
 
 .posts-card__info-container {
   flex: 1;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.posts-card__title {
+  flex: 0 1;
+}
+
+.posts-card__link {
+  color: #02b3e4;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.posts-card__link:hover {
+  text-decoration: underline;
+}
+
+.posts-card__author {
+  color: #7d97ad;
+  font-size: 0.7rem;
+  padding: 0.3rem 0;
+  flex: 0 1;
+}
+
+.posts-card__short-description {
+  color: #525c65;
+  padding: 0.7rem 0;
+  font-size: 0.9rem;
+}
+
+.posts-card__comments-count {
+  display: flex;
+  align-self: flex-end;
+  color: #7d97ad;
+  font-size: 0.8rem;
+  font-weight: bold;
+  flex: 1;
+  align-items: flex-end;
 }
 
 /* POST CARDS END */
@@ -129,3 +168,17 @@ html {
 }
 
 /* VOTE SCORE END */
+
+
+
+@media screen and (min-width: 48rem) {
+  #root {
+    grid-gap: 1rem;
+    grid-template-areas:
+      'header header header'
+      ' . main .'
+      'footer footer footer';
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+  }
+}
