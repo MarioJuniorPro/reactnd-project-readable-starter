@@ -1,48 +1,131 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+body,
+html {
+  height: 100%;
+  background-color: #f4f8f9;
+  font-family: Open Sans, sans-serif;
+}
+/* LAYOUT  */
+#root {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas:
+    'header'
+    'main'
+    /* 'main' */
+    'footer';
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  /* grid-template-rows: auto; */
+}
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+.page__header {
+  grid-area: header;
+  padding: 1.5rem;
+  outline: none;
+  color: #fff;
+  /* box-shadow: 5px 5px 25px 0px rgba(46,61,73,0.2); */
+  background-color: #02b3e4;
+  border: 0.125rem solid transparent;
+  border-right: 0.125rem solid #02ccba;
+  border-left: 0.125rem solid #02b3e4;
+  background-image: linear-gradient(to right, #02b3e4 0%, #02ccba 100%);
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+
+.page__main {
+  grid-area: main;
+  padding: 0 0.5rem;
+  /* height: 100% */
 }
-body {
-	line-height: 1;
+
+.page__footer {
+  grid-area: footer;
+  padding: 1rem;
+  background: #bc20e2;
+  color: #fdfdfd;
 }
-ol, ul {
-	list-style: none;
+/* LAYOUT END */
+
+.posts__categories {
+
 }
-blockquote, q {
-	quotes: none;
+
+.categories-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+
+.categories-item {
+  border-radius: 0.25rem;
 }
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+
+.categories-item--active {
+  background-color: #02b3e4;
+  color: #fff;
 }
+
+.categories-item--active .categories-item__link {
+  color: #fff;
+  font-weight: 600;
+}
+
+.categories-item__link {
+  color: #525c65;
+}
+
+.categories-item__link,
+.categories-item__link:hover,
+.categories-item__link:visited {
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: top;
+  text-decoration: none;
+  vertical-align: middle;
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.7125rem;
+  line-height: 1.925rem;
+  letter-spacing: 0.125rem;
+  transition: all 0.3s ease;
+}
+
+
+/* POST CARDS  */
+.posts-cards {
+
+}
+
+.posts-card {
+  padding: 0.5rem 0.75rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: left;
+  position: relative;
+  background: #fff;
+  box-shadow: 5px 5px 15px 0px rgba(46, 61, 73, 0.4);
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.posts-card__info-container {
+  flex: 1;
+}
+
+/* POST CARDS END */
+
+/* VOTE SCORE  */
+
+.vote-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0.7rem 0 0.2rem;
+}
+
+/* VOTE SCORE END */
