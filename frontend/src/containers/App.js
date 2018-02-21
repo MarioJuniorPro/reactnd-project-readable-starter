@@ -27,9 +27,9 @@ class App extends Component {
               "body": "Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.",
               "author": "thingone",
               "category": "redux",
-              "voteScore": -5,
+              "voteScore": -5000,
               "deleted": false,
-              "commentCount": 0
+              "commentCount": 4000
           }
       ]
       }
@@ -44,13 +44,13 @@ class App extends Component {
           <nav className="posts__categories">
             <ul className="categories-list">
               <li className="categories-item">
-                <a className="categories-item__link" href="#">Hot</a>
+                <a className="categories-item__link" href="#">Hot X</a>
               </li>
               <li className="categories-item">
                 <a className="categories-item__link" href="#">React</a>
               </li>
               <li className="categories-item categories-item--active">
-                <a className="categories-item__link" href="#">React Native</a>
+                <a className="categories-item__link" href="#">Redux</a>
               </li>
               <li className="categories-item">
                 <a className="categories-item__link" href="#">Udacity</a>

@@ -13,6 +13,8 @@ export const PostCard = (props) => {
   )
 }
 
+PostCard.displayName = 'PostCard'
+
 PostCard.propTypes = {
   post: PropTypes.object.isRequired
 }

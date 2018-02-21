@@ -141,9 +141,13 @@ html {
   flex: 0 1;
 }
 
+.posts-card__author {
+  padding-top: 0.3rem;
+}
+
 .posts-card__short-description {
   color: #525c65;
-  padding: 0.7rem 0;
+  padding: 0.1rem 0 0.7rem 0;
   font-size: 0.9rem;
 }
 
@@ -157,16 +161,53 @@ html {
   align-items: flex-end;
 }
 
+.posts-card__comments-icon {
+  padding:  0 0.3rem 0 0;
+}
+
 /* POST CARDS END */
 
 /* VOTE SCORE  */
 
 .vote-score {
   display: flex;
+  flex: 0 1 3rem;
   flex-direction: column;
   align-items: center;
   padding: 0 0.7rem 0 0.2rem;
   justify-content: center;
+}
+.vote-score_button {
+  background-color: #02b3e4;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: top;
+  text-decoration: none;
+  vertical-align: middle;
+  padding: 0 0.5rem;
+  border-radius: 50%;
+  border: none;
+  text-transform: uppercase;
+  font-size: 0.7125rem;
+  line-height: 1.725rem;
+  letter-spacing: 0.125rem;
+  transition: all 0.3s ease;
+}
+.vote-score__counter {
+  color: #7d97ad;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+}
+
+.vote-score__increase:active, .vote-score__increase:hover {
+  background-color: green;
+}
+
+.vote-score__increase:active, .vote-score__decrease:hover {
+  background-color: red;
 }
 
 /* VOTE SCORE END */

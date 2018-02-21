@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import FaUser from 'react-icons/lib/fa/user'
+
 import CommentCount from './CommentCount'
 import PostCardShortDescription from './PostCardShortDescription'
+import PostCardTitle from './PostCardTitle'
+import PostCardAuthor from './PostCardAuthor'
 
 export const PostCardInfo = (props) => {
-  const { commentCount, body }  = props.post
+  const { commentCount, body, title, author }  = props.post
   return (
     <div className="posts-card__info-container">
-      <span className="posts-card__title">
-        <a href="#" className="posts-card__link">
-          Learn Redux in 10 minutes!
-        </a>
-      </span>
-      <span className="posts-card__author">Author: Necrower</span>
+      <PostCardTitle title={title} />
+      <PostCardAuthor author={author} />
       <PostCardShortDescription description={body} />
       <CommentCount count={commentCount}/>
     </div>

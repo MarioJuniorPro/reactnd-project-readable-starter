@@ -11,6 +11,8 @@ export const PostCardShortDescription = (props) => {
   )
 }
 
+PostCardShortDescription.displayName = 'PostCardShortDescription'
+
 PostCardShortDescription.propTypes = {
   description: PropTypes.string.isRequired,
   maxCharacters: PropTypes.number.isRequired,
