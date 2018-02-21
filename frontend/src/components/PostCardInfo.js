@@ -11,9 +11,13 @@ export const PostCardInfo = (props) => {
   return (
     <div className="posts-card__info-container">
       <PostCardTitle title={title} />
-      <PostCardAuthor author={author} />
+      <div style={{position: 'absolute', right: 15}}>sss</div>
       <PostCardBody body={body} maxCharacters={140} />
-      <CommentCount count={commentCount}/>
+      <footer className="posts-card__footer">
+        <PostCardAuthor author={author} />
+        <CommentCount count={commentCount}/>
+        <span className="posts-card__actions">Edit / Delete</span>
+      </footer>
     </div>
   )
 }

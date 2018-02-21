@@ -33,10 +33,10 @@ describe('<PostCardInfo />', () => {
     expect(actual).toBePresent()
   })
 
-  it('should render the <PostCardShortDescription />', () => {
+  xit('should render the <PostCardBody />', () => {
     expect.assertions(1)
     const wrapper = shallow(<PostCardInfo post={props.post} />)
-    const actual = wrapper.find('PostCardShortDescription')
+    const actual = wrapper.find('PostCardBody')
     expect(actual).toBePresent()
   })
 
