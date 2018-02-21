@@ -1,11 +1,14 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import PostCardInfo from './PostCardInfo'
 
 describe('<PostCardInfo />', () => {
   const props = {
     post: {
-      title: 'Udacity is the best place to learn React'
+      title: 'Udacity is the best place to learn React',
+      body: 'Everyone says so after all.',
+      commentCount: 77,
+      author: 'Mario Costa Junior'
     }
   }
 
@@ -42,5 +45,18 @@ describe('<PostCardInfo />', () => {
     const wrapper = shallow(<PostCardInfo post={props.post} />)
     const actual = wrapper.find('CommentCount')
     expect(actual).toBePresent()
+  })
+
+  it('should have all property passed ', () => {
+    expect.assertions(1)
+    const wrapper = mount(<PostCardInfo post={props.post} />)
+    const actual = wrapper
+    const expected = {
+      title: 'Udacity is the best place to learn React',
+      body: 'Everyone says so after all.',
+      commentCount: 77,
+      author: 'Mario Costa Junior'
+    }
+    expect(actual).toHaveProp('post', expected)
   })
 })

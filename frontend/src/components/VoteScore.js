@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import FaThumbsUp from 'react-icons/lib/fa/thumbs-up'
 import FaThumbsDown from 'react-icons/lib/fa/thumbs-down'
 
-export const VoteScore = (props) => {
+export const VoteScore = props => {
   const { voteScore } = props.post
   return (
     <div className="vote-score">
@@ -17,6 +17,8 @@ export const VoteScore = (props) => {
     </div>
   )
 }
+
+VoteScore.displayName = 'VoteScore'
 
 VoteScore.propTypes = {
   post: PropTypes.shape({ id: PropTypes.string, voteScore: PropTypes.number })

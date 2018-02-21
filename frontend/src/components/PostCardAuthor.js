@@ -8,7 +8,7 @@ export const PostCardAuthor = props => {
   return (
     <span className="posts-card__author">
       <FaUser className="posts-card__author-icon" />
-      {author}
+      <span className="posts-card__author-name">{author}</span>
     </span>
   )
 }

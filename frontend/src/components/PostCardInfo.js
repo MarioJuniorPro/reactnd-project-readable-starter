@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import FaUser from 'react-icons/lib/fa/user'
 
 import CommentCount from './CommentCount'
-import PostCardShortDescription from './PostCardShortDescription'
+import PostCardBody from './PostCardBody'
 import PostCardTitle from './PostCardTitle'
 import PostCardAuthor from './PostCardAuthor'
 
@@ -14,14 +14,19 @@ export const PostCardInfo = (props) => {
     <div className="posts-card__info-container">
       <PostCardTitle title={title} />
       <PostCardAuthor author={author} />
-      <PostCardShortDescription description={body} />
+      <PostCardBody body={body} maxCharacters={140} />
       <CommentCount count={commentCount}/>
     </div>
   )
 }
 
 PostCardInfo.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.shape({ 
+    title: PropTypes.string,
+    body: PropTypes.string,
+    author: PropTypes.string,
+    commentCount: PropTypes.number })
+    .isRequired
 }
 
 export default PostCardInfo
