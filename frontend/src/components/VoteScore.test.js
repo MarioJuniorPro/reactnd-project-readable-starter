@@ -39,7 +39,7 @@ describe('<VoteScore />', () => {
     expect(actual).toIncludeText(expected)
   })
 
-  it('should render total of votes passed as props', () => {
+  it('should have total of votes passed as props', () => {
     expect.assertions(1)
     const wrapper = mount(<VoteScore post={props.post} />)
     const actual = wrapper

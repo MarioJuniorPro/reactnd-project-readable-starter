@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import PostCard from './PostCard'
+import PostCardInfo from './PostCardInfo'
 
-describe('<PostCard />', () => {
+describe('<PostCardInfo />', () => {
 
   const props = {
     post: {}
@@ -10,7 +10,7 @@ describe('<PostCard />', () => {
 
   it('should render without crash', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostCard {...props} />)
+    const wrapper = shallow(<PostCardInfo {...props} />)
     const actual = wrapper
     expect(actual).toBePresent();
   });
