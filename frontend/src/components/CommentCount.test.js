@@ -15,7 +15,7 @@ describe('<CommentCount />', () => {
     expect(actual).toBePresent();
   });
 
-  it('should render total of comments', () => {
+  it('should render total of a single comment', () => {
     expect.assertions(1)
     const wrapper = mount(<CommentCount count={ 1 } />)
     const actual = wrapper.find('.posts-card__comments-count')
@@ -23,7 +23,7 @@ describe('<CommentCount />', () => {
     expect(actual).toIncludeText(expected)
   })
 
-  it('should render total of comments pluralized', () => {
+  it('should render total of multiples comments pluralized', () => {
     expect.assertions(1)
     const wrapper = mount(<CommentCount count={ 2 } />)
     const actual = wrapper.find('.posts-card__comments-count')
