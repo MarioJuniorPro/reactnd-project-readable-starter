@@ -13,3 +13,4 @@ export const getPosts = (category) => {
   return api.get(url)
 }
 
+export const axiosInstance = api.axiosInstance

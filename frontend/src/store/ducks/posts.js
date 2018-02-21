@@ -32,6 +32,10 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 
+export const fetchDataStart = (data) => ({
+  type: Types.FETCH_DATA_START
+})
+
 export const fetchDataSuccess = (data) => ({
   type: Types.FETCH_DATA_SUCCESS,
   payload: { list: data }
@@ -46,7 +50,7 @@ export const fetchDataFail = (error) => ({
 // Async Action Creators
 
 export const getPosts = category => dispatch => {
-  dispatch({ type: Types.FETCH_DATA_START })
+  dispatch(fetchDataStart())
   return api
     .getPosts(category)
     .then(resp => {
