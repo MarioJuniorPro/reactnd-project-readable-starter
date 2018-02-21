@@ -23,6 +23,7 @@ describe('<PostCard />', () => {
     expect(actual).toBePresent()
   })
 
+<<<<<<< HEAD
   it('should render the <PostCardInfo />', () => {
     expect.assertions(1)
     const wrapper = shallow(<PostCard {...props} />)
@@ -31,6 +32,8 @@ describe('<PostCard />', () => {
     expect(actual).toBePresent()
   })
 
+=======
+>>>>>>> a46f8eea5301319a8cf756c802856b622939a764
   it('should have all property passed ', () => {
     expect.assertions(1)
     const wrapper = mount(<PostCard {...props} />)
