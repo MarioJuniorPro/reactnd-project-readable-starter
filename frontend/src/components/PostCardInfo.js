@@ -5,18 +5,18 @@ import CommentCount from './CommentCount'
 import PostCardBody from './PostCardBody'
 import PostCardTitle from './PostCardTitle'
 import PostCardAuthor from './PostCardAuthor'
+import PostActions from './PostActions'
 
 export const PostCardInfo = (props) => {
   const { commentCount, body, title, author }  = props.post
   return (
     <div className="posts-card__info-container">
       <PostCardTitle title={title} />
-      <div style={{position: 'absolute', right: 15}}>sss</div>
+      <PostActions />
       <PostCardBody body={body} maxCharacters={140} />
       <footer className="posts-card__footer">
         <PostCardAuthor author={author} />
         <CommentCount count={commentCount}/>
-        <span className="posts-card__actions">Edit / Delete</span>
       </footer>
     </div>
   )
