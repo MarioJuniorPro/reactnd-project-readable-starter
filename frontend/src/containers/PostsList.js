@@ -1,12 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import { getPosts } from '../store/ducks/posts'
+import { getPosts, getVisiblePosts } from '../store/ducks/posts'
 
 import PostCard from '../components/PostCard'
 import PostsCategories from '../components/PostsCategories'
 
 export class PostsList extends Component {
+
+  static defaultProps = {
+    posts: []
+  }
+
   componentDidMount(){
     this.props.getPosts(this.props.category)
   }
@@ -27,8 +32,8 @@ export class PostsList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  posts: state.posts.list
+const mapStateToProps = (state, props) => ({
+  posts: getVisiblePosts(state.posts.list, props.category)
 })
 
 const mapDispatchToProps = {

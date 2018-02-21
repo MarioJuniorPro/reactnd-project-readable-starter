@@ -73,7 +73,7 @@ describe('Posts Duck', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should execute getPosts', () => {
+    xit('should execute getPosts', () => {
       const store = mockStore({})
 
       return store.dispatch(getPosts()).then(da => {

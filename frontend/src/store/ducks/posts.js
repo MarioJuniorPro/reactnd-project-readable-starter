@@ -12,32 +12,8 @@ export const Types = {
 // Reducer
 
 const initialState = {
-  // list: [
-  //   {
-  //       "id": "8xf0y6ziyjabvozdd253nd",
-  //       "timestamp": 1467166872634,
-  //       "title": "Udacity is the best place to learn React",
-  //       "body": "Everyone says so after all.",
-  //       "author": "thingtwo",
-  //       "category": "react",
-  //       "voteScore": 6,
-  //       "deleted": false,
-  //       "commentCount": 2
-  //   },
-  //   {
-  //       "id": "6ni6ok3ym7mf1p33lnez",
-  //       "timestamp": 1468479767190,
-  //       "title": "Learn Redux in 10 minutes!",
-  //       "body": "Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.",
-  //       "author": "thingone",
-  //       "category": "redux",
-  //       "voteScore": -5000,
-  //       "deleted": false,
-  //       "commentCount": 4000
-  //   }
   list: [],
   isFetching: false
-  // filter: 'all'
 }
 
 export default function reducer(state = initialState, action) {
@@ -56,63 +32,33 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 
-// export function getPosts(filter) {
-//   return {
-//     type: Types.A,
-//     payload: {
-//       a,
-//       b
-//     }
-//   }
-// }
+export const fetchDataSuccess = (data) => ({
+  type: Types.FETCH_DATA_SUCCESS,
+  payload: { list: data }
+})
 
-export function act(a, b) {
-  return {
-    type: Types.A,
-    payload: {
-      a,
-      b
-    }
-  }
-}
+
+export const fetchDataFail = (error) => ({
+  type: Types.FETCH_DATA_FAIL,
+  payload: { error }
+})
 
 // Async Action Creators
 
-const dataset = [
-  {
-    id: '8xf0y6ziyjabvozdd253nd',
-    timestamp: 1467166872634,
-    title: 'Udacity is the best place to learn React',
-    body: 'Everyone says so after all.',
-    author: 'thingtwo',
-    category: 'react',
-    voteScore: 6,
-    deleted: false,
-    commentCount: 2
-  },
-  {
-    id: '6ni6ok3ym7mf1p33lnez',
-    timestamp: 1468479767190,
-    title: 'Learn Redux in 10 minutes!',
-    body:
-      'Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.Just kidding. It takes more than 10 minutes to learn technology.',
-    author: 'thingone',
-    category: 'redux',
-    voteScore: -5000,
-    deleted: false,
-    commentCount: 4000
-  }
-]
-
 export const getPosts = category => dispatch => {
-  console.log('category',category)
   dispatch({ type: Types.FETCH_DATA_START })
   return api
     .getPosts(category)
     .then(resp => {
-      dispatch({ type: Types.FETCH_DATA_SUCCESS, payload: { list: resp.data } })
+      resp.ok
+        ? dispatch(fetchDataSuccess(resp.data))
+        : dispatch(fetchDataFail(resp.problem))
     })
     .catch(error => {
-      dispatch({ type: Types.FETCH_DATA_FAIL, payload: { error } })
+      dispatch(fetchDataFail(error))
     })
 }
+
+// Selector
+
+export const getVisiblePosts = (posts = [], category) => category ? posts.filter(post => post.category === category) : posts
