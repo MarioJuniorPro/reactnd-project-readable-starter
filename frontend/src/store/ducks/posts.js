@@ -75,12 +75,14 @@ export const fetchPosts = category => dispatch => {
 
 export const upVotePost = id => dispatch => {
   return api.upVotePost(id).then(resp => {
+    console.log('upVotePost', id,  resp.data.voteScore)
     resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }
 
 export const downVotePost = id => dispatch => {
   return api.downVotePost(id).then(resp => {
+    console.log('downVotePost', id,  resp.data.voteScore)
     resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }

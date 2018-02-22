@@ -1,5 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
+import { MemoryRouter as Router } from 'react-router-dom'
+
 import PostsCategories from './PostsCategories'
 
 describe('<PostsCategories />', () => {
@@ -28,11 +30,11 @@ describe('<PostsCategories />', () => {
     expect(actual).toHaveLength(2)
   })
 
-  xit('should have all property passed ', () => {
-    expect.assertions(2)
-    const wrapper = mount(<PostCardTitle {...props} />)
-    const actual = wrapper
-    expect(actual).toHaveProp('title', 'Udacity is the best place to learn React')
-    expect(actual).toHaveProp('path', '/posts/1')
-  })
+  // it('should have all property passed ', () => {
+  //   expect.assertions(2)
+  //   const wrapper = mount(<Router><PostsCategories {...props} /></Router>)
+  //   const actual = wrapper.find('PostsCategories')
+  //   expect(actual).toHaveProp('title', 'Udacity is the best place to learn React')
+  //   expect(actual).toHaveProp('path', '/posts/1')
+  // })
 })

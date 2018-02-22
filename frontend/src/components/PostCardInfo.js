@@ -8,10 +8,10 @@ import PostCardAuthor from './PostCardAuthor'
 import PostActions from './PostActions'
 
 export const PostCardInfo = (props) => {
-  const { commentCount, body, title, author }  = props.post
+  const { commentCount, body, title, author,category, id }  = props.post
   return (
     <div className="posts-card__info-container">
-      <PostCardTitle title={title} />
+      <PostCardTitle title={title} category={category} id={id}/>
       <PostActions />
       <PostCardBody body={body} maxCharacters={140} />
       <footer className="posts-card__footer">

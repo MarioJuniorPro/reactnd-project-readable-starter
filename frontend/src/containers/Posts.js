@@ -43,7 +43,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = {
   fetchPosts: postsDuck.fetchPosts,
-  upVotePost: postsDuck.downVotePost,
+  upVotePost: postsDuck.upVotePost,
   downVote: postsDuck.downVotePost
 }
 

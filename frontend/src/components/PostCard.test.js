@@ -1,5 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
+import { MemoryRouter as Router } from 'react-router-dom'
+
 import PostCard from './PostCard'
 
 describe('<PostCard />', () => {
@@ -32,8 +34,8 @@ describe('<PostCard />', () => {
 
   it('should have all property passed ', () => {
     expect.assertions(1)
-    const wrapper = mount(<PostCard {...props} />)
-    const actual = wrapper
+    const wrapper = mount(<Router><PostCard {...props} /></Router>)
+    const actual = wrapper.find('PostCard')
     const expected = { title: 'Udacity is the best place to learn React' }
     expect(actual).toHaveProp('post', expected)
   })

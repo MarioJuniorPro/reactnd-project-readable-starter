@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 export const PostCardTitle = props => {
-  const { title } = props
+  const { title, category, id} = props
   return (
     <span className="posts-card__title">
-      <a href="#" className="posts-card__link">
+      <Link to={`/${category}/${id}`} className="posts-card__link">
         {title}
-      </a>
+      </Link>
     </span>
   )
 }

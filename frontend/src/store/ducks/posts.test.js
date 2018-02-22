@@ -90,7 +90,7 @@ describe('Posts Duck', () => {
             voteScore: 0
           },
           {
-            id: '8xf0y6ziyjabvozdd253nx',
+            id: 'haushdunx',
             voteScore: -1
           }
         ]
@@ -106,6 +106,10 @@ describe('Posts Duck', () => {
         list: [
           {
             id: '8xf0y6ziyjabvozdd253nd',
+            voteScore: -1
+          },
+          {
+            id: 'haushdunx',
             voteScore: -1
           }
         ]

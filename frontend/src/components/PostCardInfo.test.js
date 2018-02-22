@@ -1,5 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
+import { MemoryRouter as Router } from 'react-router-dom'
+
 import PostCardInfo from './PostCardInfo'
 
 describe('<PostCardInfo />', () => {
@@ -49,8 +51,8 @@ describe('<PostCardInfo />', () => {
 
   it('should have all property passed ', () => {
     expect.assertions(1)
-    const wrapper = mount(<PostCardInfo post={props.post} />)
-    const actual = wrapper
+    const wrapper = mount(<Router><PostCardInfo post={props.post} /></Router>)
+    const actual = wrapper.find('PostCardInfo')
     const expected = {
       title: 'Udacity is the best place to learn React',
       body: 'Everyone says so after all.',
