@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import { fetchPosts, getVisiblePosts } from '../store/ducks/posts'
+import * as postsDuck from '../store/ducks/posts'
 
 import PostCard from '../components/PostCard'
 import PostsCategories from '../components/PostsCategories'
@@ -14,6 +14,11 @@ export class PostsList extends Component {
 
   componentDidMount(){
     this.props.fetchPosts(this.props.category)
+
+    setInterval(() => {
+      this.props.upVotePost("8xf0y6ziyjabvozdd253nd")
+    }, 60 * 1000)
+    
   }
 
   componentWillReceiveProps(newProps){
@@ -33,11 +38,13 @@ export class PostsList extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  posts: getVisiblePosts(state.posts.list, props.category)
+  posts: postsDuck.getVisiblePosts(state.posts.list, props.category)
 })
 
 const mapDispatchToProps = {
-  fetchPosts
+  fetchPosts: postsDuck.fetchPosts,
+  upVotePost: postsDuck.downVotePost,
+  downVote: postsDuck.downVotePost
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
