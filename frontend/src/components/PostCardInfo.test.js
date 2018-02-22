@@ -1,8 +1,10 @@
 import React from 'react'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import { shallow, mount } from 'enzyme'
 import { MemoryRouter as Router } from 'react-router-dom'
 
-import PostCardInfo from './PostCardInfo'
+import PostCardInfo, { PostCardInfo as PostCardInfoClear } from './PostCardInfo'
 
 describe('<PostCardInfo />', () => {
   const props = {
@@ -14,44 +16,53 @@ describe('<PostCardInfo />', () => {
     }
   }
 
+  let defaultWrapper = null
+  let clearWrapper = null
+
+  beforeEach(() => {
+    const store = createStore(() => {})
+    defaultWrapper = (
+      <Provider store={store}>
+        <Router>
+          <PostCardInfo {...props} />
+        </Router>
+      </Provider>
+    )
+    clearWrapper = <PostCardInfoClear {...props} />
+  })
+
   it('should render without crash', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostCardInfo {...props} />)
+    const wrapper = shallow(clearWrapper)
     const actual = wrapper
     expect(actual).toBePresent()
   })
 
   it('should render the <PostCardTitle />', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostCardInfo post={props.post} />)
+    const wrapper = shallow(clearWrapper)
     const actual = wrapper.find('PostCardTitle')
     expect(actual).toBePresent()
   })
 
   it('should render the <PostCardAuthor />', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostCardInfo post={props.post} />)
+    const wrapper = shallow(clearWrapper)
     const actual = wrapper.find('PostCardAuthor')
-    expect(actual).toBePresent()
-  })
-
-  xit('should render the <PostCardBody />', () => {
-    expect.assertions(1)
-    const wrapper = shallow(<PostCardInfo post={props.post} />)
-    const actual = wrapper.find('PostCardBody')
     expect(actual).toBePresent()
   })
 
   it('should render the <CommentCount />', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostCardInfo post={props.post} />)
+    const wrapper = shallow(clearWrapper)
     const actual = wrapper.find('CommentCount')
     expect(actual).toBePresent()
   })
 
   it('should have all property passed ', () => {
     expect.assertions(1)
-    const wrapper = mount(<Router><PostCardInfo post={props.post} /></Router>)
+    const store = createStore(() => {})
+    const wrapper = mount(defaultWrapper)
     const actual = wrapper.find('PostCardInfo')
     const expected = {
       title: 'Udacity is the best place to learn React',

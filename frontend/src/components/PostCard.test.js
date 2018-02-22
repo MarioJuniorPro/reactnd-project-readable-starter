@@ -1,4 +1,6 @@
 import React from 'react'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import { shallow, mount } from 'enzyme'
 import { MemoryRouter as Router } from 'react-router-dom'
 
@@ -21,7 +23,7 @@ describe('<PostCard />', () => {
   it('should render the <VoteScore />', () => {
     expect.assertions(1)
     const wrapper = shallow(<PostCard {...props} />)
-    const actual = wrapper.find('VoteScore')
+    const actual = wrapper.find('Connect(VoteScore)')
     expect(actual).toBePresent()
   })
 
@@ -34,7 +36,8 @@ describe('<PostCard />', () => {
 
   it('should have all property passed ', () => {
     expect.assertions(1)
-    const wrapper = mount(<Router><PostCard {...props} /></Router>)
+    const store = createStore(() => {})
+    const wrapper = mount(<Provider store={store}><Router><PostCard {...props} /></Router></Provider>)
     const actual = wrapper.find('PostCard')
     const expected = { title: 'Udacity is the best place to learn React' }
     expect(actual).toHaveProp('post', expected)

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Simplert from 'react-simplert'
 
 import { deletePost } from '../store/ducks/posts'
+
 import FaDelete from 'react-icons/lib/fa/trash'
 import FaEdit from 'react-icons/lib/fa/edit'
 
@@ -33,7 +34,7 @@ export class PostActions extends Component {
     return (
       <div style={{ position: 'absolute', right: 15 }}>
         <FaEdit />
-        <button onClick={this.promptDelete}>
+        <button onClick={this.promptDelete} className="btn-round">
           <FaDelete />
         </button>
         <Simplert

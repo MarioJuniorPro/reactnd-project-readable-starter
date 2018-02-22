@@ -13,7 +13,6 @@ class App extends Component {
         <header className="page__header">Udacity Readable Project</header>
         <main className="page__main">
           <Switch>
-            {/* <Route exact path="/" render={(props) => (<Posts category={props.match.params.category}/>)}/> */}
             <Route exact path="/:category/:post_id" render={(props) => (<Post/>)}/>
             <Route path="/:category?" render={(props) => (<Posts category={props.match.params.category}/>)}/>
             <Route component={NotFound}/>

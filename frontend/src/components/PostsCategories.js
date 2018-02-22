@@ -5,12 +5,9 @@ import { NavLink } from 'react-router-dom'
 export const PostsCategories = props => {
 
   const defaults = [
-    {title: 'Hot', path: '/' },
-    {title: 'React', path: '/react' },
-    {title: 'Redux', path: '/redux' },
-    {title: 'Udacity', path: '/udacity' }
+    {name: 'Hot', path: '' }
   ]
-  const links = props.categories || defaults
+  const links = [...defaults, ...props.categories]
 
 
   return (
@@ -21,10 +18,10 @@ export const PostsCategories = props => {
             <NavLink
               className="categories-item__link"
               activeClassName="categories-item__link--active"
-              to={link.path}
+              to={`/${link.path}`}
               exact
             >
-              {link.title}
+              {link.name}
             </NavLink>
           </li>
         ))}
@@ -36,6 +33,12 @@ export const PostsCategories = props => {
 
 PostsCategories.displayName = 'PostsCategories'
 
-PostsCategories.propTypes = {}
+PostsCategories.propTypes = {
+  categories: PropTypes.array
+}
+
+PostsCategories.defaultProps = {
+  categories: []
+}
 
 export default PostsCategories

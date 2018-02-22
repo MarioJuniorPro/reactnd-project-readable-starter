@@ -1,6 +1,5 @@
 import * as api from '../../api/readable-api'
 
-import { delayPromise } from '../../utils/delay-promise'
 // Action Types
 
 export const Types = {
@@ -36,7 +35,10 @@ export default function reducer(state = initialState, action) {
       return { ...state, list: updatedList }
     }
     case Types.DELETE_POST_SUCCESS: {
-      return { ...state, list: state.list.filter(post => post.id !== payload.id) }
+      return {
+        ...state,
+        list: state.list.filter(post => post.id !== payload.id)
+      }
     }
     default:
       return state
@@ -64,51 +66,46 @@ export const updateVoteScore = (id, voteScore) => ({
   payload: { id, voteScore }
 })
 
-export const deletePostSuccess = (id) => ({
+export const deletePostSuccess = id => ({
   type: Types.DELETE_POST_SUCCESS,
   payload: { id }
 })
-
 
 // Async Action Creators
 
 export const fetchPosts = category => dispatch => {
   dispatch(fetchDataStart())
-  return api
-    .getPosts(category)
-    .then(resp => {
-      resp.ok
-        ? dispatch(fetchDataSuccess(resp.data))
-        : dispatch(fetchDataFail(resp.problem))
-    })
+  return api.getPosts(category).then(resp => {
+    resp.ok
+      ? dispatch(fetchDataSuccess(resp.data))
+      : dispatch(fetchDataFail(resp.problem))
+  })
 }
 
 export const upVotePost = id => dispatch => {
   return api.upVotePost(id).then(resp => {
-    resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
+    return resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }
 
 export const downVotePost = id => dispatch => {
   return api.downVotePost(id).then(resp => {
-    resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
+    return resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }
 
 export const deletePost = id => dispatch => {
   return api.deletePost(id).then(resp => {
-    resp.ok ? dispatch(deletePostSuccess(id)) : null
+    return resp.ok ? dispatch(deletePostSuccess(id)) : null
   })
 }
 
 // Selector
 
 export const getVisiblePosts = (posts = [], category) => {
-  const visible = posts
-  .filter(post => {
-    if(post.deleted) return false
+  const visible = posts.filter(post => {
+    if (post.deleted) return false
     return category ? post.category === category : true
   })
-  return visible;
+  return visible
 }
-  

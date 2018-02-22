@@ -6,7 +6,10 @@ const api = create({
   headers: { Authorization: 'MarioJuniorPro' }
 })
 
-// start making calls
+export const getCategories = category => {
+  const url = '/categories'
+  return api.get(url)
+}
 
 export const getPosts = category => {
   const url = category ? `/${category}/posts` : '/posts'

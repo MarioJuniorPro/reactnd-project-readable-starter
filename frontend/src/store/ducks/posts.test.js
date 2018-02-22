@@ -8,7 +8,8 @@ import {
   fetchPosts,
   upVotePost,
   downVotePost,
-  getVisiblePosts
+  getVisiblePosts,
+  deletePost
 } from './posts'
 import * as api from '../../api/readable-api'
 
@@ -26,6 +27,17 @@ describe('Posts Duck', () => {
       category: 'react',
       voteScore: 0,
       deleted: false,
+      commentCount: 2
+    },
+    {
+      id: '8xf0y6ziyjabvozdd253ne',
+      timestamp: 1467166872634,
+      title: 'Mock 2',
+      body: 'Everyone says so after all.',
+      author: 'thingtwo',
+      category: 'redux',
+      voteScore: 0,
+      deleted: true,
       commentCount: 2
     }
   ]
@@ -117,9 +129,47 @@ describe('Posts Duck', () => {
       expect(actual).toEqual(expected)
     })
 
+    it('should handle DELETE_POST_SUCCESS', () => {
+      const initialState = {
+        list: [
+          {
+            id: '8xf0y6ziyjabvozdd253nd'
+          },
+          {
+            id: 'haushdunx'
+          }
+        ]
+      }
+
+      const action = {
+        type: Types.DELETE_POST_SUCCESS,
+        payload: { id: '8xf0y6ziyjabvozdd253nd' }
+      }
+
+      const actual = reducer(initialState, action)
+      const expected = {
+        list: [
+          {
+            id: 'haushdunx'
+          }
+        ]
+      }
+      expect(actual).toEqual(expected)
+    });
+
     it('should getVisiblePost unfiltered', () => {
       const actual = getVisiblePosts(mockPostList)
-      const expected = mockPostList
+      const expected = [{
+        id: '8xf0y6ziyjabvozdd253nd',
+        timestamp: 1467166872634,
+        title: 'Udacity is the best place to learn React',
+        body: 'Everyone says so after all.',
+        author: 'thingtwo',
+        category: 'react',
+        voteScore: 0,
+        deleted: false,
+        commentCount: 2
+      }]
       expect(actual).toEqual(expected)
     })
 
@@ -142,6 +192,9 @@ describe('Posts Duck', () => {
         mockApi
           .onPost('/posts/8xf0y6ziyjabvozdd253nd', { option: 'downVote' })
           .reply(200, { id: '8xf0y6ziyjabvozdd253nd', voteScore: -15 })
+        mockApi
+          .onDelete('/posts/8xf0y6ziyjabvozdd253nd')
+          .reply(200)
       })
 
       afterEach(() => {
@@ -149,7 +202,7 @@ describe('Posts Duck', () => {
       })
 
       it(
-        'should execute getPosts',
+        'should execute fetchPosts',
         done => {
           expect.assertions(2)
           const store = mockStore({})
@@ -168,7 +221,7 @@ describe('Posts Duck', () => {
       )
 
       it(
-        'should execute getPosts with fail',
+        'should execute fetchPosts with fail',
         done => {
           mockApi.onGet('/posts').reply(500)
           expect.assertions(2)
@@ -219,6 +272,22 @@ describe('Posts Duck', () => {
               payload: { id: '8xf0y6ziyjabvozdd253nd', voteScore: -15 }
             }
             expect(actual).toEqual(expected)
+            done()
+          })
+        },
+        1000
+      )
+
+      
+      it(
+        'should execute deletePost',
+        done => {
+          expect.assertions(1)
+          const store = mockStore({})
+
+          store.dispatch(deletePost('8xf0y6ziyjabvozdd253nd')).then(() => {
+            const actions = store.getActions()
+            expect(actions[0]).toEqual({ payload: { id: "8xf0y6ziyjabvozdd253nd" }, type: Types.DELETE_POST_SUCCESS})
             done()
           })
         },

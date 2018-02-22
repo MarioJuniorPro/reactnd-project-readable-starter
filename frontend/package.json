@@ -43,5 +43,13 @@
       "pre-commit": "cross-env CI=true react-scripts test",
       "pre-push": "cross-env CI=true react-scripts test"
     }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js}",
+      "!<rootDir>/node_modules/",
+      "!src/**index.js",
+      "!src/**registerServiceWorker.js"
+    ]
   }
 }

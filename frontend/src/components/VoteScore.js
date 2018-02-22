@@ -1,17 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { upVotePost, downVotePost } from '../store/ducks/posts'
+
 import FaThumbsUp from 'react-icons/lib/fa/thumbs-up'
 import FaThumbsDown from 'react-icons/lib/fa/thumbs-down'
 
+const getVoteScoreClassName = (voteScore) => {
+    return voteScore < 0 ? 'vote-score__counter--negative' : 'vote-score__counter--positive'
+}
+
 export const VoteScore = props => {
-  const { voteScore } = props.post
+  const { voteScore, id } = props.post
   return (
     <div className="vote-score">
-      <button className="vote-score_button vote-score__increase" title="Up">
+      <button className="btn-round vote-score__button--increase" title="Up" onClick={() => {props.upVotePost(id)}}>
         <FaThumbsUp />
       </button>
-      <span className="vote-score__counter">{voteScore}</span>
-      <button className="vote-score_button vote-score__decrease" title="Down">
+      <span className={`vote-score__counter ${getVoteScoreClassName(voteScore)}`}>{voteScore}</span>
+      <button className="btn-round vote-score__button--decrease" title="Down" onClick={() => {props.downVotePost(id)}}>
         <FaThumbsDown />
       </button>
     </div>
@@ -25,4 +33,13 @@ VoteScore.propTypes = {
     .isRequired
 }
 
-export default VoteScore
+const mapStateToProps = (state) => ({
+  
+})
+
+const mapDispatchToProps = {
+  upVotePost, downVotePost
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(VoteScore)
