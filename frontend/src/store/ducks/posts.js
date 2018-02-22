@@ -49,7 +49,7 @@ export const fetchDataFail = (error) => ({
 
 // Async Action Creators
 
-export const getPosts = category => dispatch => {
+export const fetchPosts = category => dispatch => {
   dispatch(fetchDataStart())
   return api
     .getPosts(category)

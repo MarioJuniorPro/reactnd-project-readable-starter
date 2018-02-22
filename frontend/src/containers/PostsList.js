@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import { getPosts, getVisiblePosts } from '../store/ducks/posts'
+import { fetchPosts, getVisiblePosts } from '../store/ducks/posts'
 
 import PostCard from '../components/PostCard'
 import PostsCategories from '../components/PostsCategories'
@@ -13,11 +13,11 @@ export class PostsList extends Component {
   }
 
   componentDidMount(){
-    this.props.getPosts(this.props.category)
+    this.props.fetchPosts(this.props.category)
   }
 
   componentWillReceiveProps(newProps){
-    this.props.category !== newProps.category ? this.props.getPosts(newProps.category) : null
+    this.props.category !== newProps.category ? this.props.fetchPosts(newProps.category) : null
   }
 
   render() {
@@ -37,7 +37,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = {
-  getPosts
+  fetchPosts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)

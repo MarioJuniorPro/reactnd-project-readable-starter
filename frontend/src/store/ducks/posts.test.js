@@ -1,12 +1,14 @@
-import { default as reducer, Types, getPosts } from './posts'
-
-import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import MockAdapter from 'axios-mock-adapter'
+import configureStore from 'redux-mock-store'
 
-const middlewares = [thunk] // add your middlewares like `redux-thunk`
-const mockStore = configureStore(middlewares)
+import { default as reducer, Types, fetchPosts } from './posts'
+import * as api from '../../api/readable-api'
 
 describe('Posts Duck', () => {
+  const middlewares = [thunk] // add your middlewares like `redux-thunk`
+  const mockStore = configureStore(middlewares)
+
   const mockPostList = [
     {
       id: '8xf0y6ziyjabvozdd253nd',
@@ -73,16 +75,28 @@ describe('Posts Duck', () => {
       expect(actual).toEqual(expected)
     })
 
-    xit('should execute getPosts', () => {
-      const store = mockStore({})
+    describe('async action creators', () => {
+      //Setup the mock of API
+      const mockApi = new MockAdapter(api.axiosInstance)
+      mockApi.onGet('/posts').reply(201, mockPostList)
 
-      return store.dispatch(getPosts()).then(da => {
-        const actions = store.getActions()
-        expect(actions[0]).toEqual({ type: Types.FETCH_DATA_START })
-        expect(actions[1]).toEqual({
-          type: Types.FETCH_DATA_SUCCESS,
-          payload: { list: null }
-        })
+      afterEach(function() {
+        mockApi.reset()
+      })
+
+      it('should execute getPosts', (done) => {
+        expect.assertions(2)
+        const store = mockStore({})
+
+        store.dispatch(fetchPosts()).then(() => {
+          const actions = store.getActions()
+          expect(actions[0]).toEqual({ type: Types.FETCH_DATA_START })
+          expect(actions[1]).toEqual({
+            type: Types.FETCH_DATA_SUCCESS,
+            payload: { list: mockPostList }
+          })
+          done()
+        }, 1000)
       })
     })
     // it('should handle GET_POSTS_START')
