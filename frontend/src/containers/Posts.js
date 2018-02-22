@@ -17,7 +17,7 @@ export class PostsList extends Component {
 
     setInterval(() => {
       this.props.upVotePost("8xf0y6ziyjabvozdd253nd")
-    }, 60 * 1000)
+    }, 20 * 1000)
     
   }
 

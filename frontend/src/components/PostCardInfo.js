@@ -12,7 +12,7 @@ export const PostCardInfo = (props) => {
   return (
     <div className="posts-card__info-container">
       <PostCardTitle title={title} category={category} id={id}/>
-      <PostActions />
+      <PostActions id={id} />
       <PostCardBody body={body} maxCharacters={140} />
       <footer className="posts-card__footer">
         <PostCardAuthor author={author} />

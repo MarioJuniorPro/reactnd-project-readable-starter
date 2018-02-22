@@ -27,5 +27,10 @@ export const downVotePost = id => {
   })
 }
 
+export const deletePost = id => {
+  const url = `/posts/${id}`
+  return api.delete(url)
+}
+
 
 export const axiosInstance = api.axiosInstance

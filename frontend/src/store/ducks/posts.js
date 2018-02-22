@@ -7,7 +7,8 @@ export const Types = {
   FETCH_DATA_SUCCESS: 'posts/FETCH_DATA_SUCCESS',
   FETCH_DATA_FAIL: 'posts/FETCH_DATA_FAIL',
   FETCH_DATA_START: 'posts/FETCH_DATA_START',
-  UPDATE_VOTE_SCORE: 'posts/UPDATE_VOTE_SCORE'
+  UPDATE_VOTE_SCORE: 'posts/UPDATE_VOTE_SCORE',
+  DELETE_POST_SUCCESS: 'posts/DELETE_POST_SUCCESS'
 }
 
 // Reducer
@@ -33,6 +34,9 @@ export default function reducer(state = initialState, action) {
           : post
       })
       return { ...state, list: updatedList }
+    }
+    case Types.DELETE_POST_SUCCESS: {
+      return { ...state, list: state.list.filter(post => post.id !== payload.id) }
     }
     default:
       return state
@@ -60,6 +64,12 @@ export const updateVoteScore = (id, voteScore) => ({
   payload: { id, voteScore }
 })
 
+export const deletePostSuccess = (id) => ({
+  type: Types.DELETE_POST_SUCCESS,
+  payload: { id }
+})
+
+
 // Async Action Creators
 
 export const fetchPosts = category => dispatch => {
@@ -75,19 +85,30 @@ export const fetchPosts = category => dispatch => {
 
 export const upVotePost = id => dispatch => {
   return api.upVotePost(id).then(resp => {
-    console.log('upVotePost', id,  resp.data.voteScore)
     resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }
 
 export const downVotePost = id => dispatch => {
   return api.downVotePost(id).then(resp => {
-    console.log('downVotePost', id,  resp.data.voteScore)
     resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
+  })
+}
+
+export const deletePost = id => dispatch => {
+  return api.deletePost(id).then(resp => {
+    resp.ok ? dispatch(deletePostSuccess(id)) : null
   })
 }
 
 // Selector
 
-export const getVisiblePosts = (posts = [], category) =>
-  category ? posts.filter(post => post.category === category) : posts
+export const getVisiblePosts = (posts = [], category) => {
+  const visible = posts
+  .filter(post => {
+    if(post.deleted) return false
+    return category ? post.category === category : true
+  })
+  return visible;
+}
+  

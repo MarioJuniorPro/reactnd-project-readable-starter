@@ -22,7 +22,6 @@ describe('<PostCardTitle />', () => {
     expect.assertions(1)
     const wrapper = mount(<Router><PostCardTitle {...props} /></Router>)
     const actual = wrapper.find('.posts-card__link').first()
-    console.log(actual.debug())
     const expected = 'Udacity is the best place to learn React'
     expect(actual).toHaveText(expected)
   })
