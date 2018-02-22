@@ -5,7 +5,7 @@ import * as postsDuck from '../store/ducks/posts'
 import * as categoriesDuck from '../store/ducks/categories'
 
 import PostCard from '../components/PostCard'
-import PostsCategories from '../components/PostsCategories'
+// import PostsCategories from '../components/PostsCategories'
 
 export class PostsList extends Component {
 
@@ -30,7 +30,7 @@ export class PostsList extends Component {
   render() {
     return (
       <Fragment>
-        <PostsCategories categories={this.props.categories}/>
+        {/* <PostsCategories categories={this.props.categories}/> */}
         <section className="posts-cards">
           {this.props.posts.map(post => <PostCard key={post.id} post={post} />)}
         </section>

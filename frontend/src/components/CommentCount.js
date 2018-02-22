@@ -1,12 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaComment from 'react-icons/lib/fa/comments'
+import { Icon } from 'semantic-ui-react'
+
 
 export const CommentCount = (props) => {
   const commentCount = props.count
   const commentCountSumary = commentCount === 1 ? `${commentCount} comment` : `${commentCount} comments`
   return (
-    <span className="posts-card__comments-count"><FaComment className="posts-card__comments-icon" />{commentCountSumary}</span>
+    <span>
+      <Icon name="comments" />
+      {commentCountSumary}
+    </span>
   )
 }
 
