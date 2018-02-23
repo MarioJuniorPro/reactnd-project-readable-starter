@@ -18,7 +18,7 @@ describe('<CommentCount />', () => {
   it('should render total of a single comment', () => {
     expect.assertions(1)
     const wrapper = mount(<CommentCount count={ 1 } />)
-    const actual = wrapper.find('.posts-card__comments-count')
+    const actual = wrapper.find('.comments-count')
     const expected = '1 comment'
     expect(actual).toIncludeText(expected)
   })
@@ -26,7 +26,7 @@ describe('<CommentCount />', () => {
   it('should render total of multiples comments pluralized', () => {
     expect.assertions(1)
     const wrapper = mount(<CommentCount count={ 2 } />)
-    const actual = wrapper.find('.posts-card__comments-count')
+    const actual = wrapper.find('.comments-count')
     const expected = '2 comments'
     expect(actual).toIncludeText(expected)
   })

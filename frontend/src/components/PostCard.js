@@ -16,6 +16,7 @@ import CommentCount from './CommentCount'
 import PostCardTitle from './PostCardTitle'
 import PostCardAuthor from './PostCardAuthor'
 
+import postShape from './post.shape'
 import { deletePost } from '../store/ducks/posts'
 
 export class PostCard extends Component {
@@ -27,11 +28,13 @@ export class PostCard extends Component {
   }
   
   static propTypes = {
-    post: PropTypes.object.isRequired
+    post: PropTypes.shape(postShape)
   }
 
   static defaultProps = {
-    post: {}
+    post: {
+      body: ''      
+    }
   }
 
 
@@ -43,15 +46,14 @@ export class PostCard extends Component {
     this.setState({ promptDelete: false })
   }
 
-  detelePost = (id) => {
+  deletePostById = (id) => {
     this.props.deletePost(id)
     this.setState({ promptDelete: false })
   }
 
   render() {
     const { commentCount, body, title, author, category, id } = this.props.post
-    const shortDescription =
-      body.length > 140 ? `${body.substring(0, 140)}...` : body
+    const shortDescription = body && body.length > 140 ? `${body.substring(0, 140)}...` : body
 
     return (
       <Fragment>
@@ -76,12 +78,12 @@ export class PostCard extends Component {
                 <CommentCount count={commentCount} />
               </Grid.Column>
               <Grid.Column width={1}>
-                <Dropdown item icon="options" simple>
+                <Dropdown item icon="options" simple className="post__settings">
                   <Dropdown.Menu>
-                    <Dropdown.Item>
+                    <Dropdown.Item className="post__settings-edit">
                       <Icon color="grey" name="pencil" />Edit
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={this.promptDelete} >
+                    <Dropdown.Item onClick={this.promptDelete}  className="post__settings-delete">
                       <Icon color="red" name="trash"  />Delete
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -98,7 +100,8 @@ export class PostCard extends Component {
         showSimplert={this.state.promptDelete}
         onClose={this.promptDeleteClose}
         type={'warning'}
-        onConfirm={() => this.detelePost(id)}
+        onConfirm={() => this.deletePostById(id)}
+        customClass="post__delete-confirm"
         useConfirmBtn={true}
       />
 
@@ -107,10 +110,8 @@ export class PostCard extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
-
 const mapDispatchToProps = {
   deletePost
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostCard)
+export default connect(null, mapDispatchToProps)(PostCard)

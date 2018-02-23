@@ -52,7 +52,6 @@ export const fetchCategories = () => dispatch => {
   return api
     .getCategories()
     .then(resp => {
-      console.log('resp', resp.ok, resp.problem)
       resp.ok
         ? dispatch(fetchDataSuccess(resp.data.categories))
         : dispatch(fetchDataFail(resp.problem))

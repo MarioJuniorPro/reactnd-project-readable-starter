@@ -6,40 +6,10 @@ import { upVotePost, downVotePost } from '../store/ducks/posts'
 
 import { Icon, Button } from 'semantic-ui-react'
 
-const getVoteScoreClassName = voteScore => {
-  return voteScore < 0
-    ? 'vote-score__counter--negative'
-    : 'vote-score__counter--positive'
-}
-
 export const VoteScore = props => {
   const { voteScore, id } = props.post
   return (
     <div className="vote-score">
-      {/* <button
-        className="btn-round vote-score__button--increase"
-        title="Up"
-        onClick={() => {
-          props.upVotePost(id)
-        }}
-      >
-        <Icon color="green" name="thumbs up outline" bordered inverted/>
-      </button>
-      <span
-        className={`vote-score__counter ${getVoteScoreClassName(voteScore)}`}
-      >
-        {voteScore}
-      </span>
-      <button
-        className="btn-round vote-score__button--decrease"
-        title="Down"
-        onClick={() => {
-          props.downVotePost(id)
-        }}
-      >
-       <Icon color='red' name='thumbs down outline' circular inverted />
-
-      </button> */}
       <Button.Group size="mini">
         <Button
           negative
@@ -47,18 +17,20 @@ export const VoteScore = props => {
           onClick={() => {
             props.downVotePost(id)
           }}
+          className="vote-score__button--decrease"
         >
-          <Icon color="white" name="thumbs down outline" />
+          <Icon name="thumbs down outline" />
         </Button>
-        <Button.Or text={voteScore} positive/>
+        <Button.Or text={voteScore} className="vote-score__counter"/>
         <Button
           positive
           title="Up"
           onClick={() => {
             props.upVotePost(id)
           }}
+          className="vote-score__button--increase"
         >
-          <Icon color="white" name="thumbs up outline" />
+          <Icon name="thumbs up outline" />
         </Button>
       </Button.Group>
     </div>

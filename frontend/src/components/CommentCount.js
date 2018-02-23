@@ -9,7 +9,7 @@ export const CommentCount = (props) => {
   return (
     <span>
       <Icon name="comments" />
-      {commentCountSumary}
+      <span className="comments-count">{commentCountSumary}</span>
     </span>
   )
 }

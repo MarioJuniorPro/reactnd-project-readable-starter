@@ -18,7 +18,7 @@ describe('<PostCardAuthor />', () => {
   it('should render author', () => {
     expect.assertions(1)
     const wrapper = shallow(<PostCardAuthor {...props} />)
-    const actual = wrapper.find('.posts-card__author-name')
+    const actual = wrapper.find('.author-name')
     const expected = 'Mario Costa Junior'
     expect(actual).toHaveText(expected)
   })

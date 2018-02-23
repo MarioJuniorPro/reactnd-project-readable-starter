@@ -1,32 +1,38 @@
 import React from 'react'
+import { createStore } from 'redux'
 import { shallow, mount } from 'enzyme'
 import { MemoryRouter as Router } from 'react-router-dom'
 
-import PostsCategories from './PostsCategories'
+import PostsCategoriesMenu from './PostsCategoriesMenu'
 
-describe('<PostsCategories />', () => {
+describe('<PostsCategoriesMenu />', () => {
   const props = {
-    name: 'Udacity is the best place to learn React',
-    path: 'posts/1'
+    categories: [
+      {name: 'React', path: 'react', active: false }
+    ]
   }
+
+  let defaultWrapper = null
+  let clearWrapper = null
+
+  beforeEach(() => {
+    const store = createStore(() => {})
+    defaultWrapper = <Router><PostsCategoriesMenu  {...props} /></Router>
+    clearWrapper = <PostsCategoriesMenu {...props} />
+  })
+
 
   it('should render without crash', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostsCategories {...props} />)
+    const wrapper = shallow(defaultWrapper)
     const actual = wrapper
     expect(actual).toBePresent()
   })
 
-  xit('should render links based on props', () => {
-    const props = {
-      categories: [
-        {title: 'Hot', path: '/' },
-        {title: 'React', path: '/react' }
-      ]
-    }
+  it('should render links based on props', () => {
     expect.assertions(1)
-    const wrapper = shallow(<PostsCategories {...props} />)
-    const actual = wrapper.find('NavLink')
+    const wrapper = mount(defaultWrapper)
+    const actual = wrapper.find('MenuItem')
     expect(actual).toHaveLength(2)
   })
 
