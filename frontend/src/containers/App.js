@@ -13,7 +13,10 @@ class App extends Component {
       <Fragment>
         <Switch>
           <Route exact path="/:category/:post_id/edit" render={(props) => (<PostEditPage />)}/>
-          <Route exact path="/:category/:post_id" render={(props) => (<PostPage />)}/>
+          <Route exact path="/:category/:post_id" render={(props) => {
+            const {category, post_id} = props.match.params
+            return <PostPage category={category} postId={post_id}/>
+          }}/>
           <Route path="/:category?" render={(props) => (<PostsPage category={props.match.params.category}/>)}/>
           <Route component={NotFound}/>
         </Switch>

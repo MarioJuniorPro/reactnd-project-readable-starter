@@ -47,7 +47,7 @@ VoteScore.propTypes = {
 
 const styles = {
   voteScoreCounter: {
-    padding: '0.5rem',
+    padding: '0 0.5rem',
     fontWeight: 'bold',
     minWidth: '4rem',
     display: 'inline-block',

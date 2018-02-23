@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.2.1",
     "apisauce": "^0.14.3",
     "axios": "^0.17.1",
     "enzyme": "^3.3.0",
@@ -14,6 +15,7 @@
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",
+    "react-modal2": "^5.0.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",

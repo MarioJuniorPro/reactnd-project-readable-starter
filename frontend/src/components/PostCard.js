@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Simplert from 'react-simplert'
 
@@ -10,6 +9,9 @@ import VoteScore from './VoteScore'
 import CommentCount from './CommentCount'
 import PostCardTitle from './PostCardTitle'
 import PostCardAuthor from './PostCardAuthor'
+import PostModal from './PostModal'
+
+import PostFormEdit from './PostFormEdit'
 
 import postShape from './post.shape'
 import { deletePost, upVotePost, downVotePost } from '../store/ducks/posts'
@@ -18,7 +20,8 @@ export class PostCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      promptDelete: false
+      promptDelete: false,
+      showPostForm: false
     }
   }
 
@@ -40,14 +43,19 @@ export class PostCard extends Component {
     this.setState({ promptDelete: false })
   }
 
+  showPostForm = () => {
+    this.setState(state => {
+      return {...state, showPostForm: !state.showPostForm }
+    })
+  }
+
+  showPostFormClose = () => {
+    this.setState({ showPostForm: false })
+  }
+
   deletePostById = () => {
     this.props.deletePost(this.props.post.id)
     this.setState({ promptDelete: false })
-  }
-
-  toPostPage = () => {
-    const { category, id } = this.props.post
-    this.props.history.push(`/${category}/${id}`)
   }
 
   render() {
@@ -57,6 +65,7 @@ export class PostCard extends Component {
 
     return (
       <Fragment>
+        <PostFormEdit onClose={this.showPostFormClose} show={this.state.showPostForm} post={this.props.post}/>
         <Card fluid color={voteScore > 0? 'green': 'red'}>
           <Card.Content>
             <Card.Header>
@@ -90,7 +99,7 @@ export class PostCard extends Component {
                   >
                     <Dropdown.Menu>
                       <Dropdown.Item
-                        onClick={() => this.toPostPage(id)}
+                        onClick={this.showPostForm}
                         className="post__settings-edit"
                       >
                         <Icon color="grey" name="pencil" />Edit
@@ -118,6 +127,7 @@ export class PostCard extends Component {
           customClass="post__delete-confirm"
           useConfirmBtn={true}
         />
+        {/* <PostModal isOpen={this.state.promptPostModal} onClose={this.promptPostModalClose} editMode={true}/> */}
       </Fragment>
     )
   }
@@ -129,4 +139,4 @@ const mapDispatchToProps = {
   downVotePost
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(PostCard))
+export default connect(null, mapDispatchToProps)(PostCard)

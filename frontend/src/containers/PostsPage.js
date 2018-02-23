@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Container, Card,Dimmer,Loader } from 'semantic-ui-react'
 
 import * as postsDuck from '../store/ducks/posts'
 import * as categoriesDuck from '../store/ducks/categories'
@@ -7,19 +8,12 @@ import * as categoriesDuck from '../store/ducks/categories'
 import PostCard from '../components/PostCard'
 import PostsCategoriesMenu from '../components/PostsCategoriesMenu'
 
-import { Container, Card } from 'semantic-ui-react'
-
-import DefaultHeader from './DefaultHeader'
-import DefaultFooter from './DefaultFooter'
 
 import DefaultLayout from './DefaultLayout'
 
 export class PostsList extends Component {
-  static defaultProps = {
-    posts: []
-  }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchCategories()
     this.props.fetchPosts(this.props.category)
 
@@ -37,6 +31,9 @@ export class PostsList extends Component {
     return (
       <div>
         <DefaultLayout>
+          <Dimmer active={this.props.isFetching}inverted>
+            <Loader size='large'>Loading</Loader>
+          </Dimmer>
           <Container text style={{ marginTop: '5rem' }}>
             <PostsCategoriesMenu
               categories={this.props.categories}
@@ -56,7 +53,8 @@ export class PostsList extends Component {
 
 const mapStateToProps = (state, props) => ({
   posts: postsDuck.getSortedAndVisiblePosts(state.posts, props.category),
-  categories: state.categories.list
+  categories: state.categories.list,
+  isFetching: state.posts.isFetching
 })
 
 const mapDispatchToProps = {
