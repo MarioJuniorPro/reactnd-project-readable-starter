@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Simplert from 'react-simplert'
+// import Simplert from 'react-simplert'
 
 import { deletePost } from '../store/ducks/posts'
 

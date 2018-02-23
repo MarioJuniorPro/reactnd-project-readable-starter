@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Input } from 'semantic-ui-react'
-import { NavLink, Link } from 'react-router-dom'
+import { Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 export const PostsCategoriesMenu = props => {
   const defaults = [{ name: 'Hot', path: '', active: true }]
@@ -14,12 +14,12 @@ export const PostsCategoriesMenu = props => {
     <Menu pointing>
       {links.map(link => (
         <Menu.Item
+          key={link.name}
           as={Link}
           name={link.name}
           active={link.active}
-          activeClassName="categories-item__link--active"
           to={`/${link.path}`}
-          exact
+          // exact
         />
       ))}
     </Menu>
