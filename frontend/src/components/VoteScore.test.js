@@ -2,22 +2,20 @@ import React from 'react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { shallow, mount } from 'enzyme'
-import VoteScore, { VoteScore as VoteScoreClear } from './VoteScore'
+import VoteScore from './VoteScore'
 
 describe('<VoteScore />', () => {
   const props = {
-    post: {
-      id: 'bonanza',
-      voteScore: 66
-    }
+    voteScore: 66,
+    upVote: jest.fn(),
+    downVote: jest.fn()
   }
   let defaultWrapper = null
   let clearWrapper = null
 
   beforeEach(() => {
     const store = createStore(() => {})
-    defaultWrapper = <Provider store={store}><VoteScore  {...props} /></Provider>
-    clearWrapper = <VoteScoreClear {...props} />
+    defaultWrapper = <VoteScore  {...props} />
   })
 
   it('should render without crash', () => {
@@ -29,14 +27,14 @@ describe('<VoteScore />', () => {
 
   it('should render an increase votes button', () => {
     expect.assertions(1)
-    const wrapper = shallow(clearWrapper)
+    const wrapper = shallow(defaultWrapper)
     const actual = wrapper.find('.vote-score__button--increase')
     expect(actual).toBePresent()
   })
 
   it('should render an decrease votes button', () => {
     expect.assertions(1)
-    const wrapper = shallow(clearWrapper)
+    const wrapper = shallow(defaultWrapper)
     const actual = wrapper.find('.vote-score__button--decrease')
     expect(actual).toBePresent()
   })
@@ -44,38 +42,38 @@ describe('<VoteScore />', () => {
   it('should render total of votes', () => {
     expect.assertions(1)
     const wrapper = mount(defaultWrapper)
-    const actual = wrapper.find('.vote-score__counter').last().prop('data-text')
-    const expected = 66
-    expect(actual).toEqual(expected)
+    const actual = wrapper.find('.vote-score__counter')
+    const expected = "66"
+    expect(actual).toHaveText(expected)
   })
 
   it('should have total of votes passed as props', () => {
     expect.assertions(1)
     const wrapper = mount(defaultWrapper)
     const actual = wrapper.find('VoteScore')
-    const expected = { id: 'bonanza', voteScore: 66 }
-    expect(actual).toHaveProp('post', expected)
+    const expected = 66
+    expect(actual).toHaveProp('voteScore', expected)
   })
 
   it('should call upVotePost', () => {
     expect.assertions(1)
     const mockProps = {
-      upVotePost: jest.fn()
+      upVote: jest.fn()
     }
-    const wrapper = shallow(<VoteScoreClear {...props} {...mockProps}/>)
+    const wrapper = shallow(<VoteScore {...props} {...mockProps}/>)
     const actual = wrapper.find('.vote-score__button--increase')
     actual.simulate('click')
-    expect(mockProps.upVotePost).toHaveBeenCalledTimes(1);
+    expect(mockProps.upVote).toHaveBeenCalledTimes(1);
   })
 
   it('should call downVotePost', () => {
     expect.assertions(1)
     const mockProps = {
-      downVotePost: jest.fn()
+      downVote: jest.fn()
     }
-    const wrapper = shallow(<VoteScoreClear {...props} {...mockProps}/>)
+    const wrapper = shallow(<VoteScore {...props} {...mockProps}/>)
     const actual = wrapper.find('.vote-score__button--decrease')
     actual.simulate('click')
-    expect(mockProps.downVotePost).toHaveBeenCalledTimes(1);
+    expect(mockProps.downVote).toHaveBeenCalledTimes(1);
   })
 })

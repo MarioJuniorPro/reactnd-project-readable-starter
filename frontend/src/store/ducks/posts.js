@@ -7,6 +7,7 @@ export const Types = {
   FETCH_DATA_FAIL: 'posts/FETCH_DATA_FAIL',
   FETCH_DATA_START: 'posts/FETCH_DATA_START',
   UPDATE_VOTE_SCORE: 'posts/UPDATE_VOTE_SCORE',
+  UPDATE_SORT_BY: 'posts/UPDATE_SORT_BY',
   DELETE_POST_SUCCESS: 'posts/DELETE_POST_SUCCESS'
 }
 
@@ -14,7 +15,8 @@ export const Types = {
 
 const initialState = {
   list: [],
-  isFetching: false
+  isFetching: false,
+  sortBy: 'voteScore_desc'
 }
 
 export default function reducer(state = initialState, action) {
@@ -38,6 +40,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         list: state.list.filter(post => post.id !== payload.id)
+      }
+    }
+    case Types.UPDATE_SORT_BY: {
+      return {
+        ...state,
+        sortBy: payload.sortBy
       }
     }
     default:
@@ -71,6 +79,11 @@ export const deletePostSuccess = id => ({
   payload: { id }
 })
 
+export const updateSortBy = sortBy => ({
+  type: Types.UPDATE_SORT_BY,
+  payload: { sortBy }
+})
+
 // Async Action Creators
 
 export const fetchPosts = category => dispatch => {
@@ -102,10 +115,24 @@ export const deletePost = id => dispatch => {
 
 // Selector
 
-export const getVisiblePosts = (posts = [], category) => {
-  const visible = posts.filter(post => {
+export const getVisiblePosts = (state, category) => {
+  const visiblePosts = state.list.filter(post => {
     if (post.deleted) return false
     return category ? post.category === category : true
   })
-  return visible
+  return visiblePosts
+}
+
+
+export const getSortedPosts = (state) => {
+  const [field, order] = state.sortBy.split('_')
+  return state.list.slice().sort((a, b) => {
+    return order === 'desc' ? (b[field] - a[field]) : (a[field] - b[field])
+  })
+}
+
+export const getSortedAndVisiblePosts= (state, category) => {
+  const withVisiblePosts = {...state, list: getVisiblePosts(state, category)}
+  const withSortedPosts = {...withVisiblePosts, list: getSortedPosts(withVisiblePosts)}
+  return withSortedPosts.list;
 }

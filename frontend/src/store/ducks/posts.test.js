@@ -9,7 +9,9 @@ import {
   upVotePost,
   downVotePost,
   getVisiblePosts,
-  deletePost
+  deletePost,
+  getSortedPosts,
+  getSortedAndVisiblePosts
 } from './posts'
 import * as api from '../../api/readable-api'
 
@@ -51,7 +53,7 @@ describe('Posts Duck', () => {
 
     it('should return the initial state', () => {
       const actual = reducer(undefined, {})
-      const expected = { list: [], isFetching: false }
+      const expected = { list: [], isFetching: false, sortBy: 'voteScore_desc' }
       expect(actual).toEqual(expected)
     })
 
@@ -64,7 +66,8 @@ describe('Posts Duck', () => {
       const actual = reducer(undefined, action)
       const expected = {
         list: mockPostList,
-        isFetching: false
+        isFetching: false,
+        sortBy: 'voteScore_desc'
       }
       expect(actual).toEqual(expected)
     })
@@ -78,7 +81,8 @@ describe('Posts Duck', () => {
       const actual = reducer(undefined, action)
       const expected = {
         list: [],
-        isFetching: false
+        isFetching: false,
+        sortBy: 'voteScore_desc'
       }
       expect(actual).toEqual(expected)
     })
@@ -89,7 +93,8 @@ describe('Posts Duck', () => {
       const actual = reducer(undefined, action)
       const expected = {
         list: [],
-        isFetching: true
+        isFetching: true,
+        sortBy: 'voteScore_desc'
       }
       expect(actual).toEqual(expected)
     })
@@ -137,7 +142,7 @@ describe('Posts Duck', () => {
           },
           {
             id: 'haushdunx'
-          }
+          },
         ]
       }
 
@@ -157,8 +162,8 @@ describe('Posts Duck', () => {
       expect(actual).toEqual(expected)
     });
 
-    it('should getVisiblePost unfiltered', () => {
-      const actual = getVisiblePosts(mockPostList)
+    it('should getVisiblePost unfiltered using getVisiblePosts()', () => {
+      const actual = getVisiblePosts({ list: mockPostList })
       const expected = [{
         id: '8xf0y6ziyjabvozdd253nd',
         timestamp: 1467166872634,
@@ -173,11 +178,186 @@ describe('Posts Duck', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should getVisiblePost filtered', () => {
-      const actual = getVisiblePosts(mockPostList, 'a not existing category')
+    it('should getVisiblePost filtered using getVisiblePosts()', () => {
+      const actual = getVisiblePosts({ list: mockPostList }, 'a not existing category')
       const expected = []
       expect(actual).toEqual(expected)
     })
+
+    it('should sort list by sortBy voteScore_desc using getSortedPosts()', () => {
+      const initialState = {
+        list: [
+          {
+            id: 'vote1',
+            timestamp: 1467166872634,
+            voteScore: -10
+          },
+          {
+            id: 'vote2',
+            timestamp: 1467166072634,
+            voteScore: 20,
+          }
+        ],
+        sortBy: 'voteScore_desc'
+      }
+
+      const actual = getSortedPosts(initialState)
+      const expected =  [
+        {
+          id: 'vote2',
+          timestamp: 1467166072634,
+          voteScore: 20,
+        },
+        {
+          id: 'vote1',
+          timestamp: 1467166872634,
+          voteScore: -10
+        }
+      ]
+      expect(actual).toEqual(expected)
+    });
+
+    it('should sort list by sortBy voteScore_asc using getSortedPosts()', () => {
+      const initialState = {
+        list: [
+          {
+            id: 'vote1',
+            timestamp: 1467166872634,
+            voteScore: -10
+          },
+          {
+            id: 'vote2',
+            timestamp: 1467166072634,
+            voteScore: 20,
+          }
+        ],
+        sortBy: 'voteScore_asc'
+      }
+
+      const actual = getSortedPosts(initialState)
+      const expected =  [
+        {
+          id: 'vote1',
+          timestamp: 1467166872634,
+          voteScore: -10
+        },
+        {
+          id: 'vote2',
+          timestamp: 1467166072634,
+          voteScore: 20,
+        }
+      ]
+      expect(actual).toEqual(expected)
+    });
+
+    it('should sort list by sortBy timestamp_desc getSortedPosts()', () => {
+      const initialState = {
+        list: [
+          {
+            id: 'vote1',
+            timestamp: 1467166872634,
+            voteScore: -10
+          },
+          {
+            id: 'vote2',
+            timestamp: 1467166072634,
+            voteScore: 20,
+          }
+        ],
+        sortBy: 'timestamp_desc'
+      }
+
+      const actual = getSortedPosts(initialState)
+      const expected =  [
+        {
+          id: 'vote1',
+          timestamp: 1467166872634,
+          voteScore: -10
+        },
+        {
+          id: 'vote2',
+          timestamp: 1467166072634,
+          voteScore: 20,
+        }
+      ]
+      expect(actual).toEqual(expected)
+    });
+
+    it('should sort list by sortBy timestamp_asc using getSortedPosts()', () => {
+      const initialState = {
+        list: [
+          {
+            id: 'vote1',
+            timestamp: 1467166872634,
+            voteScore: -10
+          },
+          {
+            id: 'vote2',
+            timestamp: 1467166072634,
+            voteScore: 20,
+          }
+        ],
+        sortBy: 'timestamp_asc'
+      }
+
+      const actual = getSortedPosts(initialState)
+      const expected =  [
+        {
+          id: 'vote2',
+          timestamp: 1467166072634,
+          voteScore: 20,
+        },
+        {
+          id: 'vote1',
+          timestamp: 1467166872634,
+          voteScore: -10
+        },
+      ]
+      expect(actual).toEqual(expected)
+    });
+
+    it('should get visible sorted posts using getSortedAndVisiblePosts()', () => {
+      const initialState = {
+        list: [
+          {
+            id: 'vote1',
+            timestamp: 1467166872634,
+            voteScore: -10,
+            deleted: true
+          },
+          {
+            id: 'vote2',
+            timestamp: 1467166072634,
+            voteScore: -20,
+            deleted: false
+          },
+          {
+            id: 'vote3',
+            timestamp: 1467166072634,
+            voteScore: 30,
+            deleted: false
+          }
+        ],
+        sortBy: 'voteScore_desc'
+      }
+
+      const actual = getSortedAndVisiblePosts(initialState)
+      const expected =  [
+        {
+          id: 'vote3',
+          timestamp: 1467166072634,
+          voteScore: 30,
+          deleted: false
+        },
+        {
+          id: 'vote2',
+          timestamp: 1467166072634,
+          voteScore: -20,
+          deleted: false
+        }
+      ]
+      expect(actual).toEqual(expected)
+    });
 
     describe('async action creators', () => {
       //Setup the mock of API

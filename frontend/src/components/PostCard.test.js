@@ -7,18 +7,29 @@ import { MemoryRouter as Router } from 'react-router-dom'
 import PostCard, { PostCard as PostCardClear } from './PostCard'
 
 describe('<PostCard />', () => {
-
   const props = {
-    post: { id: 'yy12gy12', title: 'Udacity is the best place to learn React', body: 'Body of post --- Body of post --- Body of post --- Body of post --- Body of post --- Body of post ---' }
+    post: {
+      id: 'yy12gy12',
+      title: 'Udacity is the best place to learn React',
+      body:
+        'Body of post --- Body of post --- Body of post --- Body of post --- Body of post --- Body of post ---',
+      voteScore: 66
+    }
   }
-  
+
   let defaultWrapper = null
   let clearWrapper = null
-  let store= null
+  let store = null
 
   beforeEach(() => {
     store = createStore(() => {})
-    defaultWrapper = <Provider store={store}><Router><PostCardClear  {...props} /></Router></Provider>
+    defaultWrapper = (
+      <Provider store={store}>
+        <Router>
+          <PostCardClear {...props} />
+        </Router>
+      </Provider>
+    )
     clearWrapper = <PostCard {...props} />
   })
 
@@ -26,14 +37,13 @@ describe('<PostCard />', () => {
     expect.assertions(1)
     const wrapper = mount(defaultWrapper)
     const actual = wrapper
-    expect(actual).toBePresent();
-  });
+    expect(actual).toBePresent()
+  })
 
-  
   it('should render the <VoteScore />', () => {
     expect.assertions(1)
     const wrapper = mount(defaultWrapper)
-    const actual = wrapper.find('Connect(VoteScore)')
+    const actual = wrapper.find('VoteScore')
     expect(actual).toBePresent()
   })
 
@@ -49,30 +59,47 @@ describe('<PostCard />', () => {
 
     const wrapper = mount(defaultWrapper)
     const actual = wrapper.find('PostCard')
-    const expected = { id: 'yy12gy12', title: 'Udacity is the best place to learn React', body: 'Body of post --- Body of post --- Body of post --- Body of post --- Body of post --- Body of post ---' }
+    const expected = {
+      id: 'yy12gy12',
+      title: 'Udacity is the best place to learn React',
+      body:
+        'Body of post --- Body of post --- Body of post --- Body of post --- Body of post --- Body of post ---',
+      voteScore: 66
+    }
     expect(actual).toHaveProp('post', expected)
   })
 
   describe('integration tests', () => {
+    it('should display post card optins', () => {
+      expect.assertions(3)
+      const wrapper = shallow(<PostCardClear {...props} />)
+      expect(wrapper.state().promptDelete).toBe(false)
+      wrapper.instance().promptDelete()
+      wrapper.update()
+      expect(wrapper.state().promptDelete).toBe(true)
+      wrapper.instance().promptDeleteClose()
+      wrapper.update()
+      expect(wrapper.state().promptDelete).toBe(false)
+
+    })
+    
+
     it('should delete a post', () => {
-      expect.assertions(4)
+      expect.assertions(1)
       const mockProps = {
         deletePost: jest.fn()
       }
-      const wrapper = shallow(<PostCardClear {...props} {...mockProps}/>)
-      // const postCardWrapper = wrapper.find('Simplert')
-      expect(wrapper.state().promptDelete).toBe(false);
-      wrapper.instance().promptDelete()
+      const wrapper = mount(
+        <Router>
+          <PostCardClear {...props} {...mockProps} />
+        </Router>
+      )
+      wrapper.find('PostCard').first().instance().promptDelete()
       wrapper.update()
-      expect(wrapper.state().promptDelete).toBe(true);
-      // wrapper.find('.simplert__confirm').first().simulate('click')
-      wrapper.instance().promptDeleteClose()
-      wrapper.update()
-      expect(wrapper.state().promptDelete).toBe(false);
-      wrapper.instance().deletePostById(1)
-      wrapper.update()
-      expect(mockProps.deletePost).toHaveBeenCalledTimes(1);
-    });
+      wrapper
+        .find('.simplert__confirm')
+        .simulate('click')
+      expect(mockProps.deletePost).toHaveBeenCalledTimes(1)
+    })
   })
-
 })

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import Post from './Post'
-import Posts from './Posts'
+import PostPage from './PostPage'
+import PostEditPage from './PostEditPage'
 import PostsPage from './PostsPage'
 import NotFound from './NotFound'
 
@@ -11,15 +11,12 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        {/* <header className="page__header">Udacity Readable Project</header> */}
-        {/* <main className="page__main"> */}
-          <Switch>
-            <Route exact path="/:category/:post_id" render={(props) => (<Post/>)}/>
-            <Route path="/:category?" render={(props) => (<PostsPage category={props.match.params.category}/>)}/>
-            <Route component={NotFound}/>
-          </Switch>
-        {/* </main> */}
-        {/* <footer className="page__footer">Footer</footer> */}
+        <Switch>
+          <Route exact path="/:category/:post_id/edit" render={(props) => (<PostEditPage />)}/>
+          <Route exact path="/:category/:post_id" render={(props) => (<PostPage />)}/>
+          <Route path="/:category?" render={(props) => (<PostsPage category={props.match.params.category}/>)}/>
+          <Route component={NotFound}/>
+        </Switch>
       </Fragment>
     )
   }

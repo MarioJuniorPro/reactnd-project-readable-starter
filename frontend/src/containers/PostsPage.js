@@ -7,13 +7,12 @@ import * as categoriesDuck from '../store/ducks/categories'
 import PostCard from '../components/PostCard'
 import PostsCategoriesMenu from '../components/PostsCategoriesMenu'
 
-import {
-  Container,
-  Card
-} from 'semantic-ui-react'
+import { Container, Card } from 'semantic-ui-react'
 
 import DefaultHeader from './DefaultHeader'
 import DefaultFooter from './DefaultFooter'
+
+import DefaultLayout from './DefaultLayout'
 
 export class PostsList extends Component {
   static defaultProps = {
@@ -30,31 +29,33 @@ export class PostsList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.props.category !== newProps.category && this.props.fetchPosts(newProps.category)
+    this.props.category !== newProps.category &&
+      this.props.fetchPosts(newProps.category)
   }
 
   render() {
     return (
       <div>
-        <Container textAlign={'center'}>
-          <DefaultHeader />
-        </Container>
-
-        <Container text style={{ marginTop: '5rem' }}>
-          <PostsCategoriesMenu categories={this.props.categories} category={this.props.category}/>
-          <Card.Group>
-            {this.props.posts.map(post => <PostCard key={post.id} post={post} />)}
-          </Card.Group>
-        </Container>
-
-        <DefaultFooter />
+        <DefaultLayout>
+          <Container text style={{ marginTop: '5rem' }}>
+            <PostsCategoriesMenu
+              categories={this.props.categories}
+              category={this.props.category}
+            />
+            <Card.Group>
+              {this.props.posts.map(post => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </Card.Group>
+          </Container>
+        </DefaultLayout>
       </div>
     )
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  posts: postsDuck.getVisiblePosts(state.posts.list, props.category),
+  posts: postsDuck.getSortedAndVisiblePosts(state.posts, props.category),
   categories: state.categories.list
 })
 
