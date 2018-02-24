@@ -81,4 +81,20 @@ export const deleteComment = id => {
   return api.delete(url)
 }
 
+
+export const upVoteComment = id => {
+  const url = `/comments/${id}`
+  return api.post(url, {
+    option: 'upVote'
+  })
+}
+
+export const downVoteComment = id => {
+  const url = `/comments/${id}`
+  return api.post(url, {
+    option: 'downVote'
+  })
+}
+
+
 export const axiosInstance = api.axiosInstance

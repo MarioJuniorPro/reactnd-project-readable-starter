@@ -37,7 +37,7 @@ export class PostFormEdit extends Component {
     return (
       this.props.show && (
         <Card fluid color="blue">
-          <Card.Content header="Post Form" color="blue" />
+          <Card.Content header={this.props.post.title || 'PostForm'} color="blue" />
           <Card.Description>
             <Form style={{ padding: '1rem' }}>
               <Form.Group widths="equal">

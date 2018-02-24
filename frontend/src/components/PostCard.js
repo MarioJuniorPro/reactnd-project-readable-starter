@@ -9,7 +9,7 @@ import VoteScore from './VoteScore'
 import CommentCount from './CommentCount'
 import PostCardTitle from './PostCardTitle'
 import PostCardAuthor from './PostCardAuthor'
-
+import TimeAgo from './TimeAgo'
 import PostFormEdit from './PostFormEdit'
 
 import postShape from './post.shape'
@@ -58,19 +58,20 @@ export class PostCard extends Component {
   }
 
   render() {
-    const { commentCount, body, title, author, category, id, voteScore } = this.props.post
+    const { commentCount, body, title, author, category, id, voteScore, timestamp } = this.props.post
     const shortDescription =
       body && body.length > 140 ? `${body.substring(0, 140)}...` : body
 
     return (
       <Fragment>
         <PostFormEdit onClose={this.showPostFormClose} show={this.state.showPostForm} post={this.props.post}/>
+        {!this.state.showPostForm && (
         <Card fluid color={voteScore > 0? 'green': 'red'}>
           <Card.Content>
             <Card.Header>
               <PostCardTitle title={title} category={category} id={id} />
             </Card.Header>
-            <Card.Meta>{category}</Card.Meta>
+            <Card.Meta><TimeAgo time={timestamp} />Category - {category}</Card.Meta>
             <Card.Description>{shortDescription}</Card.Description>
           </Card.Content>
           <Card.Content extra>
@@ -116,6 +117,7 @@ export class PostCard extends Component {
             </Grid>
           </Card.Content>
         </Card>
+        )}
         <Simplert
           title={'Delete Post'}
           message={'Are you sure about deliting this post?'}
