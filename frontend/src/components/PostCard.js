@@ -9,7 +9,6 @@ import VoteScore from './VoteScore'
 import CommentCount from './CommentCount'
 import PostCardTitle from './PostCardTitle'
 import PostCardAuthor from './PostCardAuthor'
-import PostModal from './PostModal'
 
 import PostFormEdit from './PostFormEdit'
 
@@ -127,7 +126,6 @@ export class PostCard extends Component {
           customClass="post__delete-confirm"
           useConfirmBtn={true}
         />
-        {/* <PostModal isOpen={this.state.promptPostModal} onClose={this.promptPostModalClose} editMode={true}/> */}
       </Fragment>
     )
   }

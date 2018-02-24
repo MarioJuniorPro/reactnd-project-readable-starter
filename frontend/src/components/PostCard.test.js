@@ -26,11 +26,11 @@ describe('<PostCard />', () => {
     defaultWrapper = (
       <Provider store={store}>
         <Router>
-          <PostCardClear {...props} />
+          <PostCard {...props} />
         </Router>
       </Provider>
     )
-    clearWrapper = <PostCard {...props} />
+    clearWrapper = <PostCardClear {...props} />
   })
 
   it('should render without crash', () => {
@@ -90,9 +90,11 @@ describe('<PostCard />', () => {
         deletePost: jest.fn()
       }
       const wrapper = mount(
-        <Router>
-          <PostCardClear {...props} {...mockProps} />
-        </Router>
+        <Provider store={store}>
+          <Router>
+            <PostCardClear {...props} {...mockProps} />
+          </Router>
+        </Provider>
       )
       wrapper.find('PostCard').first().instance().promptDelete()
       wrapper.update()

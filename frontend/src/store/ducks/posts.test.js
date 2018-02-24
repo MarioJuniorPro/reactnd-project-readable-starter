@@ -53,13 +53,18 @@ describe('Posts Duck', () => {
 
     it('should return the initial state', () => {
       const actual = reducer(undefined, {})
-      const expected = { list: [], isFetching: false, sortBy: 'voteScore_desc' }
+      const expected = {
+        list: [],
+        isFetching: false,
+        sortBy: 'voteScore_desc',
+        activePost: null
+      }
       expect(actual).toEqual(expected)
     })
 
-    it('should handle FETCH_DATA_SUCCESS', () => {
+    it('should handle FETCH_POSTS_SUCCESS', () => {
       const action = {
-        type: Types.FETCH_DATA_SUCCESS,
+        type: Types.FETCH_POSTS_SUCCESS,
         payload: { list: mockPostList }
       }
 
@@ -67,14 +72,15 @@ describe('Posts Duck', () => {
       const expected = {
         list: mockPostList,
         isFetching: false,
-        sortBy: 'voteScore_desc'
+        sortBy: 'voteScore_desc',
+        activePost: null
       }
       expect(actual).toEqual(expected)
     })
 
-    it('should handle FETCH_DATA_FAIL', () => {
+    it('should handle FETCH_POSTS_FAIL', () => {
       const action = {
-        type: Types.FETCH_DATA_FAIL,
+        type: Types.FETCH_POSTS_FAIL,
         payload: { error: 'Ops! some error' }
       }
 
@@ -82,19 +88,21 @@ describe('Posts Duck', () => {
       const expected = {
         list: [],
         isFetching: false,
-        sortBy: 'voteScore_desc'
+        sortBy: 'voteScore_desc',
+        activePost: null
       }
       expect(actual).toEqual(expected)
     })
 
-    it('should handle FETCH_DATA_START', () => {
-      const action = { type: Types.FETCH_DATA_START }
+    it('should handle FETCH_POSTS_START', () => {
+      const action = { type: Types.FETCH_POSTS_START }
 
       const actual = reducer(undefined, action)
       const expected = {
         list: [],
         isFetching: true,
-        sortBy: 'voteScore_desc'
+        sortBy: 'voteScore_desc',
+        activePost: null
       }
       expect(actual).toEqual(expected)
     })
@@ -134,6 +142,109 @@ describe('Posts Duck', () => {
       expect(actual).toEqual(expected)
     })
 
+    it('should handle UPDATE_POST_SUCCESS', () => {
+      const initialState = {
+        list: [{ id: 'xxx', title: 'dummy post' }],
+        isFetching: false
+      }
+
+      const action = {
+        type: Types.UPDATE_POST_SUCCESS,
+        payload: {
+          post: {
+            id: 'xxx',
+            title: 'smart post'
+          }
+        }
+      }
+
+      const actual = reducer(initialState, action)
+      const expected = {
+        list: [{ id: 'xxx', title: 'smart post' }],
+        isFetching: false
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('should handle FETCH_POST_START', () => {
+      const initialState = {
+        list: [],
+        isFetching: false
+      }
+
+      const action = { type: Types.FETCH_POST_START }
+
+      const actual = reducer(initialState, action)
+      const expected = {
+        list: [],
+        isFetching: true
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('should handle FETCH_POST_SUCCESS', () => {
+      const initialState = {
+        list: [],
+        isFetching: false,
+        activePost: null
+      }
+
+      const action = {
+        type: Types.FETCH_POST_SUCCESS,
+        payload: { post: { id: 'xxx', title: 'smart post' } }
+      }
+
+      const actual = reducer(initialState, action)
+      const expected = {
+        list: [],
+        isFetching: false,
+        activePost: { id: 'xxx', title: 'smart post' }
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('should handle FETCH_POST_FAIL', () => {
+      const initialState = {
+        list: [],
+        isFetching: false,
+        activePost: null
+      }
+
+      const action = { type: Types.FETCH_POST_FAIL }
+
+      const actual = reducer(initialState, action)
+      const expected = {
+        list: [],
+        isFetching: false,
+        activePost: null
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('should handle UPDATE_SORT_BY', () => {
+      const initialState = {
+        sortBy: 'voteScore_asc'
+      }
+
+      const action = {
+        type: Types.UPDATE_SORT_BY,
+        payload: {
+          sortBy: 'voteScore_desc'
+        }
+      }
+
+      const actual = reducer(initialState, action)
+      const expected = {
+        sortBy: 'voteScore_desc'
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
     it('should handle DELETE_POST_SUCCESS', () => {
       const initialState = {
         list: [
@@ -142,7 +253,7 @@ describe('Posts Duck', () => {
           },
           {
             id: 'haushdunx'
-          },
+          }
         ]
       }
 
@@ -160,26 +271,31 @@ describe('Posts Duck', () => {
         ]
       }
       expect(actual).toEqual(expected)
-    });
+    })
 
     it('should getVisiblePost unfiltered using getVisiblePosts()', () => {
       const actual = getVisiblePosts({ list: mockPostList })
-      const expected = [{
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 0,
-        deleted: false,
-        commentCount: 2
-      }]
+      const expected = [
+        {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 0,
+          deleted: false,
+          commentCount: 2
+        }
+      ]
       expect(actual).toEqual(expected)
     })
 
     it('should getVisiblePost filtered using getVisiblePosts()', () => {
-      const actual = getVisiblePosts({ list: mockPostList }, 'a not existing category')
+      const actual = getVisiblePosts(
+        { list: mockPostList },
+        'a not existing category'
+      )
       const expected = []
       expect(actual).toEqual(expected)
     })
@@ -195,18 +311,18 @@ describe('Posts Duck', () => {
           {
             id: 'vote2',
             timestamp: 1467166072634,
-            voteScore: 20,
+            voteScore: 20
           }
         ],
         sortBy: 'voteScore_desc'
       }
 
       const actual = getSortedPosts(initialState)
-      const expected =  [
+      const expected = [
         {
           id: 'vote2',
           timestamp: 1467166072634,
-          voteScore: 20,
+          voteScore: 20
         },
         {
           id: 'vote1',
@@ -215,7 +331,7 @@ describe('Posts Duck', () => {
         }
       ]
       expect(actual).toEqual(expected)
-    });
+    })
 
     it('should sort list by sortBy voteScore_asc using getSortedPosts()', () => {
       const initialState = {
@@ -228,14 +344,14 @@ describe('Posts Duck', () => {
           {
             id: 'vote2',
             timestamp: 1467166072634,
-            voteScore: 20,
+            voteScore: 20
           }
         ],
         sortBy: 'voteScore_asc'
       }
 
       const actual = getSortedPosts(initialState)
-      const expected =  [
+      const expected = [
         {
           id: 'vote1',
           timestamp: 1467166872634,
@@ -244,11 +360,11 @@ describe('Posts Duck', () => {
         {
           id: 'vote2',
           timestamp: 1467166072634,
-          voteScore: 20,
+          voteScore: 20
         }
       ]
       expect(actual).toEqual(expected)
-    });
+    })
 
     it('should sort list by sortBy timestamp_desc getSortedPosts()', () => {
       const initialState = {
@@ -261,14 +377,14 @@ describe('Posts Duck', () => {
           {
             id: 'vote2',
             timestamp: 1467166072634,
-            voteScore: 20,
+            voteScore: 20
           }
         ],
         sortBy: 'timestamp_desc'
       }
 
       const actual = getSortedPosts(initialState)
-      const expected =  [
+      const expected = [
         {
           id: 'vote1',
           timestamp: 1467166872634,
@@ -277,11 +393,11 @@ describe('Posts Duck', () => {
         {
           id: 'vote2',
           timestamp: 1467166072634,
-          voteScore: 20,
+          voteScore: 20
         }
       ]
       expect(actual).toEqual(expected)
-    });
+    })
 
     it('should sort list by sortBy timestamp_asc using getSortedPosts()', () => {
       const initialState = {
@@ -294,27 +410,27 @@ describe('Posts Duck', () => {
           {
             id: 'vote2',
             timestamp: 1467166072634,
-            voteScore: 20,
+            voteScore: 20
           }
         ],
         sortBy: 'timestamp_asc'
       }
 
       const actual = getSortedPosts(initialState)
-      const expected =  [
+      const expected = [
         {
           id: 'vote2',
           timestamp: 1467166072634,
-          voteScore: 20,
+          voteScore: 20
         },
         {
           id: 'vote1',
           timestamp: 1467166872634,
           voteScore: -10
-        },
+        }
       ]
       expect(actual).toEqual(expected)
-    });
+    })
 
     it('should get visible sorted posts using getSortedAndVisiblePosts()', () => {
       const initialState = {
@@ -342,7 +458,7 @@ describe('Posts Duck', () => {
       }
 
       const actual = getSortedAndVisiblePosts(initialState)
-      const expected =  [
+      const expected = [
         {
           id: 'vote3',
           timestamp: 1467166072634,
@@ -357,7 +473,7 @@ describe('Posts Duck', () => {
         }
       ]
       expect(actual).toEqual(expected)
-    });
+    })
 
     describe('async action creators', () => {
       //Setup the mock of API
@@ -372,9 +488,7 @@ describe('Posts Duck', () => {
         mockApi
           .onPost('/posts/8xf0y6ziyjabvozdd253nd', { option: 'downVote' })
           .reply(200, { id: '8xf0y6ziyjabvozdd253nd', voteScore: -15 })
-        mockApi
-          .onDelete('/posts/8xf0y6ziyjabvozdd253nd')
-          .reply(200)
+        mockApi.onDelete('/posts/8xf0y6ziyjabvozdd253nd').reply(200)
       })
 
       afterEach(() => {
@@ -389,9 +503,9 @@ describe('Posts Duck', () => {
 
           store.dispatch(fetchPosts()).then(() => {
             const actions = store.getActions()
-            expect(actions[0]).toEqual({ type: Types.FETCH_DATA_START })
+            expect(actions[0]).toEqual({ type: Types.FETCH_POSTS_START })
             expect(actions[1]).toEqual({
-              type: Types.FETCH_DATA_SUCCESS,
+              type: Types.FETCH_POSTS_SUCCESS,
               payload: { list: mockPostList }
             })
             done()
@@ -409,10 +523,10 @@ describe('Posts Duck', () => {
 
           store.dispatch(fetchPosts()).then(() => {
             const actions = store.getActions()
-            expect(actions[0]).toEqual({ type: Types.FETCH_DATA_START })
+            expect(actions[0]).toEqual({ type: Types.FETCH_POSTS_START })
             expect(actions[1]).toEqual({
               payload: { error: 'SERVER_ERROR' },
-              type: Types.FETCH_DATA_FAIL
+              type: Types.FETCH_POSTS_FAIL
             })
             done()
           })
@@ -458,7 +572,6 @@ describe('Posts Duck', () => {
         1000
       )
 
-      
       it(
         'should execute deletePost',
         done => {
@@ -467,7 +580,10 @@ describe('Posts Duck', () => {
 
           store.dispatch(deletePost('8xf0y6ziyjabvozdd253nd')).then(() => {
             const actions = store.getActions()
-            expect(actions[0]).toEqual({ payload: { id: "8xf0y6ziyjabvozdd253nd" }, type: Types.DELETE_POST_SUCCESS})
+            expect(actions[0]).toEqual({
+              payload: { id: '8xf0y6ziyjabvozdd253nd' },
+              type: Types.DELETE_POST_SUCCESS
+            })
             done()
           })
         },
