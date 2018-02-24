@@ -41,9 +41,9 @@ describe('Categories Duck', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should handle FETCH_DATA_SUCCESS', () => {
+    it('should handle FETCH_CATEGORIES_SUCCESS', () => {
       const action = {
-        type: Types.FETCH_DATA_SUCCESS,
+        type: Types.FETCH_CATEGORIES_SUCCESS,
         payload: { list: mockCategoryList }
       }
 
@@ -55,9 +55,9 @@ describe('Categories Duck', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should handle FETCH_DATA_FAIL', () => {
+    it('should handle FETCH_CATEGORIES_FAIL', () => {
       const action = {
-        type: Types.FETCH_DATA_FAIL,
+        type: Types.FETCH_CATEGORIES_FAIL,
         payload: { error: 'Ops! some error' }
       }
 
@@ -69,8 +69,8 @@ describe('Categories Duck', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should handle FETCH_DATA_START', () => {
-      const action = { type: Types.FETCH_DATA_START }
+    it('should handle FETCH_CATEGORIES_START', () => {
+      const action = { type: Types.FETCH_CATEGORIES_START }
 
       const actual = reducer(undefined, action)
       const expected = {
@@ -101,9 +101,9 @@ describe('Categories Duck', () => {
 
           store.dispatch(fetchCategories()).then(() => {
             const actions = store.getActions()
-            expect(actions[0]).toEqual({ type: Types.FETCH_DATA_START })
+            expect(actions[0]).toEqual({ type: Types.FETCH_CATEGORIES_START })
             expect(actions[1]).toEqual({
-              type: Types.FETCH_DATA_SUCCESS,
+              type: Types.FETCH_CATEGORIES_SUCCESS,
               payload: { list: mockCategoryList }
             })
             done()
@@ -121,10 +121,10 @@ it(
 
           store.dispatch(fetchCategories()).then(() => {
             const actions = store.getActions()
-            expect(actions[0]).toEqual({ type: Types.FETCH_DATA_START })
+            expect(actions[0]).toEqual({ type: Types.FETCH_CATEGORIES_START })
             expect(actions[1]).toEqual({
               payload: { error: 'SERVER_ERROR' },
-              type: Types.FETCH_DATA_FAIL
+              type: Types.FETCH_CATEGORIES_FAIL
             })
             done()
           })

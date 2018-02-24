@@ -1,53 +1,112 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Container, Header,Dimmer,Loader } from 'semantic-ui-react'
+import moment from 'moment'
+import {
+  Container,
+  Header,
+  Dimmer,
+  Loader,
+  Card,
+  Icon,
+  Form,
+  Grid,
+  Dropdown,
+  Comment as SemaComment,
+  Button
+} from 'semantic-ui-react'
 
 import { fetchPost } from '../store/ducks/posts'
+import { fetchComments, getComments, createComment } from '../store/ducks/comments'
+
+import PostCard from '../components/PostCard'
+import Comment from '../components/Comment'
 
 import DefaultLayout from './DefaultLayout'
 import NotFound from './NotFound'
 
-export class Post extends Component {
+export class PostPage extends Component {
   static propTypes = {
     category: PropTypes.string.isRequired,
     postId: PropTypes.string.isRequired
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.fetchPost(this.props.postId)
+    this.props.fetchComments(this.props.postId)
   }
 
-  renderNotFound(){
+  renderNotFound() {
     const { post } = this.props
-    return !post && !this.props.isFetching ? <NotFound />: null
+    return !post && !this.props.isFetching ? <NotFound /> : null
   }
 
   render() {
     const { post } = this.props
-    
+
     return (
       <DefaultLayout>
-        <Dimmer active={this.props.isFetching}inverted>
-          <Loader size='large'>Loading</Loader>
+        <Dimmer active={this.props.isFetching} inverted>
+          <Loader size="large">Loading</Loader>
         </Dimmer>
+
         <Container text style={{ marginTop: '5rem' }}>
-          { this.renderNotFound() }
-          <Header>POST {this.props.postId}</Header>
+          {this.renderNotFound()}
+          {post && this.renderContent()}
         </Container>
       </DefaultLayout>
     )
   }
+
+  createComment = (e) => {
+    const timestamp = moment()
+    const comment = {
+      id: timestamp,
+      timestamp: timestamp,
+      body: 'COMENTARIO '+timestamp,
+      author: 'NewCrower',
+      parentId: this.props.postId
+    }
+    
+    this.props.createComment(comment)
+  }
+
+  renderContent() {
+    const post = {...this.props.post, commentCount: this.props.comments.length}
+
+    return (
+      <Fragment>
+        <SemaComment.Group>
+          <PostCard key={post.id} post={post} />
+        </SemaComment.Group>
+        <SemaComment.Group>
+          { this.props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+          <Form reply>
+            <Form.TextArea />
+            <Button
+              content="Add Comment"
+              labelPosition="left"
+              icon="edit"
+              primary
+              onClick={this.createComment}
+            />
+          </Form>
+        </SemaComment.Group>
+      </Fragment>
+    )
+  }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, props) => ({
   post: state.posts.activePost,
-  isFetching: state.posts.isFetching
+  isFetching: state.posts.isFetching,
+  comments: getComments(state.comments, props.postId)
 })
 
 const mapDispatchToProps = {
-  fetchPost
+  fetchPost,
+  fetchComments,
+  createComment
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage)

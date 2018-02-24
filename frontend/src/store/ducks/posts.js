@@ -14,7 +14,7 @@ export const Types = {
   FETCH_POST_SUCCESS: 'posts/FETCH_POST_SUCCESS',
   FETCH_POST_FAIL: 'posts/FETCH_POST_FAIL',
   FETCH_POST_START: 'posts/FETCH_POST_START',
-  
+  UPDATE_POST_COMMENTS: 'posts/UPDATE_POST_COMMENTS'
 }
 
 // Reducer
@@ -41,7 +41,10 @@ export default function reducer(state = initialState, action) {
           ? { ...post, voteScore: payload.voteScore }
           : post
       })
-      return { ...state, list: updatedList }
+      const updatedActivePost = state.activePost
+        ? { ...state.activePost, voteScore: payload.voteScore }
+        : null
+      return { ...state, list: updatedList, activePost: updatedActivePost }
     }
     case Types.DELETE_POST_SUCCESS: {
       return {
@@ -50,17 +53,23 @@ export default function reducer(state = initialState, action) {
       }
     }
     case Types.UPDATE_POST_SUCCESS: {
-      const postIndex = state.list.findIndex(post => post.id === payload.post.id)
+      const postIndex = state.list.findIndex(
+        post => post.id === payload.post.id
+      )
       return {
         ...state,
-        list: [...state.list.slice(0, postIndex), payload.post, ...state.list.slice(postIndex+1)]
+        list: [
+          ...state.list.slice(0, postIndex),
+          payload.post,
+          ...state.list.slice(postIndex + 1)
+        ]
       }
     }
-    case Types.FETCH_POST_START: 
+    case Types.FETCH_POST_START:
       return { ...state, isFetching: true }
     case Types.FETCH_POST_SUCCESS:
       return { ...state, activePost: payload.post, isFetching: false }
-    case Types.FETCH_POST_FAIL: 
+    case Types.FETCH_POST_FAIL:
       return { ...state, activePost: null, isFetching: false }
     case Types.UPDATE_SORT_BY: {
       return {
@@ -75,16 +84,16 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 
-export const fetchDataStart = data => ({
+export const fetchPostsStart = data => ({
   type: Types.FETCH_POSTS_START
 })
 
-export const fetchDataSuccess = data => ({
+export const fetchPostsSuccess = data => ({
   type: Types.FETCH_POSTS_SUCCESS,
   payload: { list: data }
 })
 
-export const fetchDataFail = error => ({
+export const fetchPostsFail = error => ({
   type: Types.FETCH_POSTS_FAIL,
   payload: { error }
 })
@@ -109,6 +118,11 @@ export const updateSortBy = sortBy => ({
   payload: { sortBy }
 })
 
+export const fetchPostStart = post => ({
+  type: Types.FETCH_POST_START,
+  payload: { post }
+})
+
 export const fetchPostSuccess = post => ({
   type: Types.FETCH_POST_SUCCESS,
   payload: { post }
@@ -118,15 +132,14 @@ export const fetchPostFail = () => ({
   type: Types.FETCH_POST_FAIL
 })
 
-
 // Async Action Creators
 
 export const fetchPosts = category => dispatch => {
-  dispatch(fetchDataStart())
+  dispatch(fetchPostsStart())
   return api.getPosts(category).then(resp => {
     resp.ok
-      ? dispatch(fetchDataSuccess(resp.data))
-      : dispatch(fetchDataFail(resp.problem))
+      ? dispatch(fetchPostsSuccess(resp.data))
+      : dispatch(fetchPostsFail(resp.problem))
   })
 }
 
@@ -155,9 +168,11 @@ export const updatePost = post => dispatch => {
 }
 
 export const fetchPost = id => dispatch => {
-  dispatch(fetchDataStart())
+  dispatch(fetchPostStart())
   return api.getPost(id).then(resp => {
-    return resp.ok && !_.isEmpty(resp.data)? dispatch(fetchPostSuccess(resp.data)) : dispatch(fetchPostFail())
+    return resp.ok && !_.isEmpty(resp.data)
+      ? dispatch(fetchPostSuccess(resp.data))
+      : dispatch(fetchPostFail())
   })
 }
 
@@ -171,16 +186,18 @@ export const getVisiblePosts = (state, category) => {
   return visiblePosts
 }
 
-
-export const getSortedPosts = (state) => {
+export const getSortedPosts = state => {
   const [field, order] = state.sortBy.split('_')
   return state.list.slice().sort((a, b) => {
-    return order === 'desc' ? (b[field] - a[field]) : (a[field] - b[field])
+    return order === 'desc' ? b[field] - a[field] : a[field] - b[field]
   })
 }
 
-export const getSortedAndVisiblePosts= (state, category) => {
-  const withVisiblePosts = {...state, list: getVisiblePosts(state, category)}
-  const withSortedPosts = {...withVisiblePosts, list: getSortedPosts(withVisiblePosts)}
-  return withSortedPosts.list;
+export const getSortedAndVisiblePosts = (state, category) => {
+  const withVisiblePosts = { ...state, list: getVisiblePosts(state, category) }
+  const withSortedPosts = {
+    ...withVisiblePosts,
+    list: getSortedPosts(withVisiblePosts)
+  }
+  return withSortedPosts.list
 }

@@ -19,7 +19,7 @@ export const VoteScore = props => {
       >
         <Icon name="thumbs down outline" />
       </Button>
-      <span className="vote-score__counter" style={styles.voteScoreCounter}>
+      <span className={`vote-score__counter vote-score__counter--${voteScore > 0? 'positive': 'negative'}`} style={styles.voteScoreCounter}>
         {voteScore}
       </span>
       <Button
@@ -48,11 +48,9 @@ VoteScore.propTypes = {
 const styles = {
   voteScoreCounter: {
     padding: '0 0.5rem',
-    fontWeight: 'bold',
     minWidth: '4rem',
     display: 'inline-block',
     textAlign: 'center',
-    color: 'black'
   }
 }
 

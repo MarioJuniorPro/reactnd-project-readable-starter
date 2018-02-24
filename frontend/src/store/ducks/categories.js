@@ -3,9 +3,9 @@ import * as api from '../../api/readable-api'
 // Action Types
 
 export const Types = {
-  FETCH_DATA_SUCCESS: 'categories/FETCH_DATA_SUCCESS',
-  FETCH_DATA_FAIL: 'categories/FETCH_DATA_FAIL',
-  FETCH_DATA_START: 'categories/FETCH_DATA_START',
+  FETCH_CATEGORIES_SUCCESS: 'categories/FETCH_CATEGORIES_SUCCESS',
+  FETCH_CATEGORIES_FAIL: 'categories/FETCH_CATEGORIES_FAIL',
+  FETCH_CATEGORIES_START: 'categories/FETCH_CATEGORIES_START',
 }
 
 // Reducer
@@ -18,11 +18,11 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   const { payload } = action
   switch (action.type) {
-    case Types.FETCH_DATA_START:
+    case Types.FETCH_CATEGORIES_START:
       return { ...state, isFetching: true }
-    case Types.FETCH_DATA_SUCCESS:
+    case Types.FETCH_CATEGORIES_SUCCESS:
       return { ...state, list: payload.list, isFetching: false }
-    case Types.FETCH_DATA_FAIL:
+    case Types.FETCH_CATEGORIES_FAIL:
       return { ...state, list: [], isFetching: false }
     default:
       return state
@@ -32,16 +32,16 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 
 export const fetchDataStart = data => ({
-  type: Types.FETCH_DATA_START
+  type: Types.FETCH_CATEGORIES_START
 })
 
 export const fetchDataSuccess = data => ({
-  type: Types.FETCH_DATA_SUCCESS,
+  type: Types.FETCH_CATEGORIES_SUCCESS,
   payload: { list: data }
 })
 
 export const fetchDataFail = error => ({
-  type: Types.FETCH_DATA_FAIL,
+  type: Types.FETCH_CATEGORIES_FAIL,
   payload: { error }
 })
 

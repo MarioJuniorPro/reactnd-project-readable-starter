@@ -6,6 +6,7 @@ import * as postsDuck from '../store/ducks/posts'
 import * as categoriesDuck from '../store/ducks/categories'
 
 import PostCard from '../components/PostCard'
+
 import PostsCategoriesMenu from '../components/PostsCategoriesMenu'
 
 
