@@ -5,12 +5,15 @@ import PostPage from './PostPage'
 import PostEditPage from './PostEditPage'
 import PostsPage from './PostsPage'
 import NotFound from './NotFound'
+import ScrollToTop from './ScrollToTop'
+
 
 class App extends Component {
 
   render() {
     return (
       <Fragment>
+        <Route component={ScrollToTop} />
         <Switch>
           <Route exact path="/:category/:post_id/edit" render={(props) => (<PostEditPage />)}/>
           <Route exact path="/:category/:post_id" render={(props) => {

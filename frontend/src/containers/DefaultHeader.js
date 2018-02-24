@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   Container,
   Menu,
@@ -19,7 +20,7 @@ export const DefaultHeader = () => {
         <Menu.Item header>
           Udacity Readable
         </Menu.Item>
-        <Menu.Item as="a">Home</Menu.Item>
+        <Menu.Item as={Link} to={'/'}>Home</Menu.Item>
       </Container>
     </Menu>
   )

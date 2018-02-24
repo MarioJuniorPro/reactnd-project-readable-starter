@@ -15,7 +15,7 @@ export const DefaultLayout = (props) => {
 
         { props.children }       
 
-        <DefaultFooter />
+        {/* <DefaultFooter /> */}
     </Fragment>
   )
 }

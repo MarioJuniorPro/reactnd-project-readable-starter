@@ -20,7 +20,7 @@ export class Post extends Component {
 
   renderNotFound(){
     const { post } = this.props
-    return !!post && !this.props.isFetching ? <NotFound />: null
+    return !post && !this.props.isFetching ? <NotFound />: null
   }
 
   render() {

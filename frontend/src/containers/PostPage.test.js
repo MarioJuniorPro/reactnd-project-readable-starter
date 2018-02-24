@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import PostPage from './PostPage';
 
 import { shallow } from 'enzyme'
 
-it('shallow render without crashing', () => {
-  const wrapper = shallow(<App />);
+xit('shallow render without crashing', () => {
+  const wrapper = shallow(<PostPage />);
   expect(wrapper).toHaveLength(1)
 });

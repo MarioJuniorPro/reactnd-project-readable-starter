@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import DefaultFooter from './DefaultFooter';
 
 import { shallow } from 'enzyme'
 
 it('shallow render without crashing', () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<DefaultFooter />);
   expect(wrapper).toHaveLength(1)
 });
