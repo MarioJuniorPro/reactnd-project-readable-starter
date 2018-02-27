@@ -137,7 +137,8 @@ describe('Posts Duck', () => {
             id: 'haushdunx',
             voteScore: -1
           }
-        ]
+        ],
+        activePost: null
       }
       expect(actual).toEqual(expected)
     })

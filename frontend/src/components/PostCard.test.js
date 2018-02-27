@@ -13,7 +13,8 @@ describe('<PostCard />', () => {
       title: 'Udacity is the best place to learn React',
       body:
         'Body of post --- Body of post --- Body of post --- Body of post --- Body of post --- Body of post ---',
-      voteScore: 66
+      voteScore: 66,
+      timestamp: 1467166872634
     }
   }
 
@@ -64,7 +65,8 @@ describe('<PostCard />', () => {
       title: 'Udacity is the best place to learn React',
       body:
         'Body of post --- Body of post --- Body of post --- Body of post --- Body of post --- Body of post ---',
-      voteScore: 66
+      voteScore: 66,
+      timestamp: 1467166872634
     }
     expect(actual).toHaveProp('post', expected)
   })
@@ -80,9 +82,7 @@ describe('<PostCard />', () => {
       wrapper.instance().promptDeleteClose()
       wrapper.update()
       expect(wrapper.state().promptDelete).toBe(false)
-
     })
-    
 
     it('should delete a post', () => {
       expect.assertions(1)
@@ -96,11 +96,13 @@ describe('<PostCard />', () => {
           </Router>
         </Provider>
       )
-      wrapper.find('PostCard').first().instance().promptDelete()
-      wrapper.update()
       wrapper
-        .find('.simplert__confirm')
-        .simulate('click')
+        .find('PostCard')
+        .first()
+        .instance()
+        .promptDelete()
+      wrapper.update()
+      wrapper.find('.simplert__confirm').simulate('click')
       expect(mockProps.deletePost).toHaveBeenCalledTimes(1)
     })
   })

@@ -14,7 +14,7 @@ export const TimeAgo = (prop) => {
 TimeAgo.displayName = 'TimeAgo'
 
 TimeAgo.propTypes = {
-  time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  time: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 export default TimeAgo
