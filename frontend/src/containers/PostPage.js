@@ -26,6 +26,14 @@ import DefaultLayout from './DefaultLayout'
 import NotFound from './NotFound'
 
 export class PostPage extends Component {
+
+  constructor(){
+    super()
+
+    this.state = {
+      commentText: ''
+    }
+  }
   static propTypes = {
     category: PropTypes.string.isRequired,
     postId: PropTypes.string.isRequired
@@ -63,12 +71,17 @@ export class PostPage extends Component {
     const comment = {
       id: timestamp,
       timestamp: timestamp,
-      body: 'COMENTARIO '+timestamp,
-      author: 'NewCrower',
+      body: this.state.commentText.trim(),
+      author: 'Annon',
       parentId: this.props.postId
     }
-    
+   
     this.props.createComment(comment)
+    this.setState({commentText: ''})
+  }
+
+  handleCommentChange = (e) => {
+    this.setState({commentText: e.target.value})
   }
 
   renderContent() {
@@ -81,14 +94,13 @@ export class PostPage extends Component {
         </SemaComment.Group>
         <SemaComment.Group>
           { this.props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
-          <Form reply>
-            <Form.TextArea />
+          <Form reply onSubmit={this.createComment}>
+            <Form.TextArea onChange={this.handleCommentChange} autoHeight={true}/>
             <Button
               content="Add Comment"
               labelPosition="left"
               icon="edit"
               primary
-              onClick={this.createComment}
             />
           </Form>
         </SemaComment.Group>

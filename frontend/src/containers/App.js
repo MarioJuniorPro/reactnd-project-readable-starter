@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
 
 import PostPage from './PostPage'
 import PostsPage from './PostsPage'
@@ -12,6 +13,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
+        <ToastContainer />
         <Route component={ScrollToTop} />
         <Switch>
           <Route exact path="/:category/:post_id" render={(props) => {

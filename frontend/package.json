@@ -19,6 +19,7 @@
     "react-scripts": "1.1.1",
     "react-simplert": "^0.0.2",
     "react-test-renderer": "^16.2.0",
+    "react-toastify": "^3.4.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",

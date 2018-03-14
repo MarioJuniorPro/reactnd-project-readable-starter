@@ -62,7 +62,8 @@ export default function reducer(state = initialState, action) {
           ...state.list.slice(0, postIndex),
           payload.post,
           ...state.list.slice(postIndex + 1)
-        ]
+        ],
+        activePost: payload.post
       }
     }
     case Types.FETCH_POST_START:
