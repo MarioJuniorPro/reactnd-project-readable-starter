@@ -5,6 +5,7 @@
   "dependencies": {
     "apisauce": "^0.14.3",
     "axios": "^0.17.1",
+    "cuid": "^2.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "lodash": "^4.17.5",

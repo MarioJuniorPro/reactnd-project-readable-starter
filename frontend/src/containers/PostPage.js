@@ -16,8 +16,10 @@ import {
   Button
 } from 'semantic-ui-react'
 
+import cuid from 'cuid'
+
 import { fetchPost } from '../store/ducks/posts'
-import { fetchComments, getComments, createComment } from '../store/ducks/comments'
+import { fetchComments, getLatestComments, createComment } from '../store/ducks/comments'
 
 import PostCard from '../components/PostCard'
 import Comment from '../components/Comment'
@@ -67,15 +69,15 @@ export class PostPage extends Component {
   }
 
   createComment = (e) => {
+    if(this.state.commentText.trim() === '') return
     const timestamp = moment()
     const comment = {
-      id: timestamp,
-      timestamp: timestamp,
+      id: cuid(),
+      timestamp: timestamp.valueOf(),
       body: this.state.commentText.trim(),
       author: 'Annon',
       parentId: this.props.postId
     }
-   
     this.props.createComment(comment)
     this.setState({commentText: ''})
   }
@@ -93,9 +95,8 @@ export class PostPage extends Component {
           <PostCard key={post.id} post={post} />
         </SemaComment.Group>
         <SemaComment.Group>
-          { this.props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
           <Form reply onSubmit={this.createComment}>
-            <Form.TextArea onChange={this.handleCommentChange} autoHeight={true}/>
+            <Form.TextArea onChange={this.handleCommentChange} autoHeight={true} value={this.state.commentText}/>
             <Button
               content="Add Comment"
               labelPosition="left"
@@ -103,6 +104,7 @@ export class PostPage extends Component {
               primary
             />
           </Form>
+          { this.props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
         </SemaComment.Group>
       </Fragment>
     )
@@ -112,7 +114,7 @@ export class PostPage extends Component {
 const mapStateToProps = (state, props) => ({
   post: state.posts.activePost,
   isFetching: state.posts.isFetching,
-  comments: getComments(state.comments, props.postId)
+  comments: getLatestComments(state.comments, props.postId)
 })
 
 const mapDispatchToProps = {

@@ -25,7 +25,29 @@ export const toastSuccess = ({message, orientation}) => ({
     }
   })
   
-export const toastInfo = ({message, orientation}) => ({
+  export const toastInfo = ({message, orientation}) => ({
+    type: Types.TOAST_SUCCESS,
+    meta:{
+        toast: {
+            message,
+            orientation,
+            type: 'info'
+        }
+    }
+  })
+
+  export const toastWarn = ({message, orientation}) => ({
+    type: Types.TOAST_SUCCESS,
+    meta:{
+        toast: {
+            message,
+            orientation,
+            type: 'warn'
+        }
+    }
+  })
+
+  export const toastError = ({message, orientation}) => ({
     type: Types.TOAST_SUCCESS,
     meta:{
         toast: {

@@ -74,7 +74,6 @@ export const updateVoteScore = (id, voteScore) => ({
 export const fetchComments = postId => dispatch => {
   dispatch(fetchCommentsStart())
   return api.getComments(postId).then(resp => {
-    console.log(resp.ok, resp.data)
     resp.ok
       ? dispatch(fetchCommentsSuccess({ postId, comments: resp.data }))
       : dispatch(fetchCommentsFail(resp.problem))
@@ -106,4 +105,17 @@ export const downVoteComment = id => dispatch => {
 
 export const getComments = (state, postId) => {
   return state.commentTable[postId] || []
+}
+
+export const getLatestComments = (state, postId) => {
+  return (getComments(state, postId))
+    .slice()
+    .sort(sortByLatest)
+}
+
+
+// util
+
+const sortByLatest = (a, b) => {
+  return b.timestamp - a.timestamp
 }

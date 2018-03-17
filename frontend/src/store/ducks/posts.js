@@ -1,5 +1,6 @@
-import * as api from '../../api/readable-api'
 import _ from 'lodash'
+import * as api from '../../api/readable-api'
+import { toastSuccess } from './toastify'
 
 // Action Types
 
@@ -158,13 +159,19 @@ export const downVotePost = id => dispatch => {
 
 export const deletePost = id => dispatch => {
   return api.deletePost(id).then(resp => {
-    return resp.ok ? dispatch(deletePostSuccess(id)) : null
+    if(resp.ok){
+      dispatch(deletePostSuccess(id))
+      dispatch(toastSuccess({message: 'Post deleted!'}))
+    }
   })
 }
 
 export const updatePost = post => dispatch => {
   return api.updatePost(post).then(resp => {
-    return resp.ok ? dispatch(updatePostSuccess(resp.data)) : null
+    if(resp.ok){
+      dispatch(updatePostSuccess(resp.data))
+      dispatch(toastSuccess({message: 'Post updated!'}))
+    }
   })
 }
 
