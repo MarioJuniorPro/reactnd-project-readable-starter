@@ -1,5 +1,3 @@
-import * as api from '../../api/readable-api'
-
 // Action Types
 
 export const Types = {
@@ -47,7 +45,7 @@ export const fetchDataFail = error => ({
 
 // Async Action Creators
 
-export const fetchCategories = () => dispatch => {
+export const fetchCategories = () => (dispatch, getState, {api}) => {
   dispatch(fetchDataStart())
   return api
     .getCategories()

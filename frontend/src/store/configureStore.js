@@ -1,10 +1,11 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import toastify from './middlewares/toastify'
+import * as api from '../api/readable-api'
 import rootReducer from './ducks';
 
 const configureStore = () => {
-  const middlewares = [thunk, toastify];
+  const middlewares = [thunk.withExtraArgument({ api }), toastify];
 
   return createStore(
     rootReducer,

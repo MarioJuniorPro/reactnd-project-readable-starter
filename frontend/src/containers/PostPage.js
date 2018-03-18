@@ -51,23 +51,6 @@ export class PostPage extends Component {
     return !post && !this.props.isFetching ? <NotFound /> : null
   }
 
-  render() {
-    const { post } = this.props
-
-    return (
-      <DefaultLayout>
-        <Dimmer active={this.props.isFetching} inverted>
-          <Loader size="large">Loading</Loader>
-        </Dimmer>
-
-        <Container text style={{ marginTop: '5rem' }}>
-          {this.renderNotFound()}
-          {post && this.renderContent()}
-        </Container>
-      </DefaultLayout>
-    )
-  }
-
   createComment = (e) => {
     if(this.state.commentText.trim() === '') return
     const timestamp = moment()
@@ -107,6 +90,23 @@ export class PostPage extends Component {
           { this.props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
         </SemaComment.Group>
       </Fragment>
+    )
+  }
+
+  render() {
+    const { post } = this.props
+
+    return (
+      <DefaultLayout>
+        <Dimmer active={this.props.isFetching} inverted>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
+
+        <Container text style={{ marginTop: '5rem' }}>
+          {this.renderNotFound()}
+          {post && this.renderContent()}
+        </Container>
+      </DefaultLayout>
     )
   }
 }

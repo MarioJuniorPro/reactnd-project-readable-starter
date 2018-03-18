@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import * as api from '../../api/readable-api'
 import { toastSuccess } from './toastify'
 
 // Action Types
@@ -136,7 +135,7 @@ export const fetchPostFail = () => ({
 
 // Async Action Creators
 
-export const fetchPosts = category => dispatch => {
+export const fetchPosts = category => (dispatch, getState, {api}) => {
   dispatch(fetchPostsStart())
   return api.getPosts(category).then(resp => {
     resp.ok
@@ -145,19 +144,19 @@ export const fetchPosts = category => dispatch => {
   })
 }
 
-export const upVotePost = id => dispatch => {
+export const upVotePost = id => (dispatch, getState, {api}) => {
   return api.upVotePost(id).then(resp => {
     return resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }
 
-export const downVotePost = id => dispatch => {
+export const downVotePost = id => (dispatch, getState, {api}) => {
   return api.downVotePost(id).then(resp => {
     return resp.ok ? dispatch(updateVoteScore(id, resp.data.voteScore)) : null
   })
 }
 
-export const deletePost = id => dispatch => {
+export const deletePost = id => (dispatch, getState, {api}) => {
   return api.deletePost(id).then(resp => {
     if(resp.ok){
       dispatch(deletePostSuccess(id))
@@ -166,7 +165,7 @@ export const deletePost = id => dispatch => {
   })
 }
 
-export const updatePost = post => dispatch => {
+export const updatePost = post => (dispatch, getState, {api}) => {
   return api.updatePost(post).then(resp => {
     if(resp.ok){
       dispatch(updatePostSuccess(resp.data))
@@ -175,7 +174,7 @@ export const updatePost = post => dispatch => {
   })
 }
 
-export const fetchPost = id => dispatch => {
+export const fetchPost = id => (dispatch, getState, {api}) => {
   dispatch(fetchPostStart())
   return api.getPost(id).then(resp => {
     return resp.ok && !_.isEmpty(resp.data)
