@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from 'prop-types'
 import { connect } from "react-redux";
 import {
   Comment as SemaComment,
@@ -27,6 +28,18 @@ export class Comment extends Component {
       promptDelete: false,
       commentText: ''
     };
+  }
+
+  static propTypes = {
+    comment: PropTypes.object
+  }
+
+  componentWillMount(){
+    this.setState({commentText: this.props.comment.body})
+  }
+
+  componentWillReceiveProps(newProps){
+    this.setState({commentText: newProps.comment.body})
   }
 
   updateCommentBody = () => {

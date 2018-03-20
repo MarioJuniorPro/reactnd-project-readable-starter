@@ -14,13 +14,11 @@ import DefaultLayout from './DefaultLayout'
 
 export class PostsList extends Component {
 
+// TODO propTypes
+
   componentWillMount() {
     this.props.fetchCategories()
     this.props.fetchPosts(this.props.category)
-
-    setInterval(() => {
-      this.props.upVotePost('8xf0y6ziyjabvozdd253nd')
-    }, 20 * 1000)
   }
 
   componentWillReceiveProps(newProps) {

@@ -128,7 +128,6 @@ export const updateCommentSuccess = comment => ({
 // Async Action Creators
 
 export const fetchComments = postId => (dispatch, getState, { api }) => {
-  console.info(dispatch, getState, api);
   dispatch(fetchCommentsStart());
   return api.getComments(postId).then(resp => {
     resp.ok

@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import moment from 'moment'
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import moment from "moment";
 import {
   Container,
   Header,
@@ -14,63 +14,71 @@ import {
   Dropdown,
   Comment as SemaComment,
   Button
-} from 'semantic-ui-react'
+} from "semantic-ui-react";
 
-import cuid from 'cuid'
+import cuid from "cuid";
 
-import { fetchPost } from '../store/ducks/posts'
-import { fetchComments, getLatestComments, createComment } from '../store/ducks/comments'
+import { fetchPost } from "../store/ducks/posts";
+import {
+  fetchComments,
+  getLatestComments,
+  createComment
+} from "../store/ducks/comments";
 
-import PostCard from '../components/PostCard'
-import Comment from '../components/Comment'
+import PostCard from "../components/PostCard";
+import Comment from "../components/Comment";
 
-import DefaultLayout from './DefaultLayout'
-import NotFound from './NotFound'
+import DefaultLayout from "./DefaultLayout";
+import NotFound from "./NotFound";
 
 export class PostPage extends Component {
-
-  constructor(){
-    super()
+  constructor() {
+    super();
 
     this.state = {
-      commentText: ''
-    }
+      commentText: ""
+    };
   }
   static propTypes = {
     category: PropTypes.string.isRequired,
     postId: PropTypes.string.isRequired
-  }
+  };
+
+  // TODO onDeletePost redirect
 
   componentWillMount() {
-    this.props.fetchPost(this.props.postId)
-    this.props.fetchComments(this.props.postId)
+    this.props.fetchPost(this.props.postId);
+    this.props.fetchComments(this.props.postId);
   }
 
   renderNotFound() {
-    const { post } = this.props
-    return !post && !this.props.isFetching ? <NotFound /> : null
+    const { post } = this.props;
+    return !post && !this.props.isFetching ? <NotFound /> : null;
   }
 
-  createComment = (e) => {
-    if(this.state.commentText.trim() === '') return
-    const timestamp = moment()
+  createComment = e => {
+    if (this.state.commentText.trim() === "") return;
+    const timestamp = moment();
     const comment = {
       id: cuid(),
       timestamp: timestamp.valueOf(),
       body: this.state.commentText.trim(),
-      author: 'Annon',
+      author: "Annon",
       parentId: this.props.postId
-    }
-    this.props.createComment(comment)
-    this.setState({commentText: ''})
-  }
+    };
+    this.props.createComment(comment);
+    this.setState({ commentText: "" });
+  };
 
-  handleCommentChange = (e) => {
-    this.setState({commentText: e.target.value})
-  }
+  handleCommentChange = e => {
+    this.setState({ commentText: e.target.value });
+  };
 
   renderContent() {
-    const post = {...this.props.post, commentCount: this.props.comments.length}
+    const post = {
+      ...this.props.post,
+      commentCount: this.props.comments.length
+    };
 
     return (
       <Fragment>
@@ -79,7 +87,11 @@ export class PostPage extends Component {
         </SemaComment.Group>
         <SemaComment.Group>
           <Form reply onSubmit={this.createComment}>
-            <Form.TextArea onChange={this.handleCommentChange} autoHeight={true} value={this.state.commentText}/>
+            <Form.TextArea
+              onChange={this.handleCommentChange}
+              autoHeight={true}
+              value={this.state.commentText}
+            />
             <Button
               content="Add Comment"
               labelPosition="left"
@@ -87,14 +99,16 @@ export class PostPage extends Component {
               primary
             />
           </Form>
-          { this.props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+          {this.props.comments.map(comment => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
         </SemaComment.Group>
       </Fragment>
-    )
+    );
   }
 
   render() {
-    const { post } = this.props
+    const { post } = this.props;
 
     return (
       <DefaultLayout>
@@ -102,12 +116,12 @@ export class PostPage extends Component {
           <Loader size="large">Loading</Loader>
         </Dimmer>
 
-        <Container text style={{ marginTop: '5rem' }}>
+        <Container text style={{ marginTop: "5rem" }}>
           {this.renderNotFound()}
           {post && this.renderContent()}
         </Container>
       </DefaultLayout>
-    )
+    );
   }
 }
 
@@ -115,12 +129,12 @@ const mapStateToProps = (state, props) => ({
   post: state.posts.activePost,
   isFetching: state.posts.isFetching,
   comments: getLatestComments(state.comments, props.postId)
-})
+});
 
 const mapDispatchToProps = {
   fetchPost,
   fetchComments,
   createComment
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostPage)
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

@@ -4,7 +4,6 @@ import {
 } from 'semantic-ui-react'
 
 import DefaultHeader from './DefaultHeader'
-import DefaultFooter from './DefaultFooter'
 
 export const DefaultLayout = (props) => {
   return (
@@ -12,10 +11,7 @@ export const DefaultLayout = (props) => {
         <Container textAlign={'center'}>
           <DefaultHeader />
         </Container>
-
         { props.children }       
-
-        {/* <DefaultFooter /> */}
     </Fragment>
   )
 }
