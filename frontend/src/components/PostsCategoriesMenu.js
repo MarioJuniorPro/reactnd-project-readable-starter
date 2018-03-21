@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Menu, Input, Select,Button, Icon } from 'semantic-ui-react'
+import { Menu, Input, Select,Button, Icon, Modal, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 import * as postsDuck from '../store/ducks/posts'
@@ -55,6 +55,17 @@ export const PostsCategoriesMenu = props => {
       <Menu.Menu position="right">
       <Menu.Item>
         <Button color="blue"><Icon name='list' />Create Post</Button >
+        <Modal trigger={<Button>Show Modal</Button>}>
+          <Modal.Header>Select a Photo</Modal.Header>
+          <Modal.Content >
+            
+            <Modal.Description>
+              <Header>Default Profile Image</Header>
+              <p>We've found the following gravatar image associated with your e-mail address.</p>
+              <p>Is it okay to use this photo?</p>
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
         </Menu.Item>
         <Menu.Item>
           <Select
