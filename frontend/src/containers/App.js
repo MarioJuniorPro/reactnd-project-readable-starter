@@ -7,7 +7,6 @@ import PostsPage from './PostsPage'
 import NotFound from './NotFound'
 import ScrollToTop from './ScrollToTop'
 
-
 class App extends Component {
 
   render() {

@@ -17,25 +17,25 @@ export const PostsCategoriesMenu = props => {
     {
       key: 'votescore_desc',
       value: 'voteScore_desc',
-      icon: 'sort descending',
+      icon: 'sort numeric descending',
       text: 'Vote Score desc'
     },
     {
       key: 'votescore_asc',
       value: 'voteScore_asc',
-      icon: 'sort ascending',
+      icon: 'sort numeric ascending',
       text: 'Vote Score asc'
     },
     {
       key: 'timestamp_desc',
       value: 'timestamp_desc',
-      icon: 'sort descending',
+      icon: 'sort content descending',
       text: 'Date desc'
     },
     {
       key: 'timestamp_asc',
       value: 'timestamp_asc',
-      icon: 'sort ascending',
+      icon: 'sort content ascending',
       text: 'Date asc'
     }
   ]
@@ -54,9 +54,9 @@ export const PostsCategoriesMenu = props => {
       ))}
       <Menu.Menu position="right">
       <Menu.Item>
-        <Button color="blue"><Icon name='list' />Create Post</Button >
-        <Modal trigger={<Button>Show Modal</Button>}>
-          <Modal.Header>Select a Photo</Modal.Header>
+        
+        <Modal trigger={<Button color="blue"><Icon name='add' />Create Post</Button >}>
+          <Modal.Header>Create new post</Modal.Header>
           <Modal.Content >
             
             <Modal.Description>
