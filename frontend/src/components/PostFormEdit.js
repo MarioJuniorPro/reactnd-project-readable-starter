@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Card, Icon, Form } from 'semantic-ui-react'
+import { Card, Form } from 'semantic-ui-react'
 
 import { updatePost } from '../store/ducks/posts'
 
@@ -16,7 +16,7 @@ export class PostFormEdit extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { title, body, show } = newProps.post
+    const { title, body } = newProps.post
     this.setState({ title, body })
   }
 
@@ -44,7 +44,7 @@ export class PostFormEdit extends Component {
                 <Form.Input
                   fluid
                   label="Title"
-                  placeholder="First name"
+                  placeholder="Title"
                   onChange={this.handleChange}
                   name="title"
                   value={this.state.title}
@@ -52,7 +52,7 @@ export class PostFormEdit extends Component {
                 <Form.Input
                   fluid
                   label="Body"
-                  placeholder="Last name"
+                  placeholder="Body"
                   onChange={this.handleChange}
                   name="body"
                   value={this.state.body}

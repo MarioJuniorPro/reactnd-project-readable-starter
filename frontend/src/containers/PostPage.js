@@ -1,22 +1,18 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from 'react-router'
 import moment from "moment";
+import cuid from "cuid";
 import {
   Container,
-  Header,
   Dimmer,
   Loader,
-  Card,
-  Icon,
   Form,
-  Grid,
-  Dropdown,
   Comment as SemaComment,
   Button
 } from "semantic-ui-react";
 
-import cuid from "cuid";
 
 import { fetchPost } from "../store/ducks/posts";
 import {
@@ -43,8 +39,6 @@ export class PostPage extends Component {
     category: PropTypes.string.isRequired,
     postId: PropTypes.string.isRequired
   };
-
-  // TODO onDeletePost redirect
 
   componentWillMount() {
     this.props.fetchPost(this.props.postId);
@@ -74,6 +68,13 @@ export class PostPage extends Component {
     this.setState({ commentText: e.target.value });
   };
 
+  onPostDelete = () => {
+    const { history } = this.props
+    history.push({
+      pathname: '/'
+    })
+  }
+
   renderContent() {
     const post = {
       ...this.props.post,
@@ -83,7 +84,7 @@ export class PostPage extends Component {
     return (
       <Fragment>
         <SemaComment.Group>
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} onDelete={this.onPostDelete} />
         </SemaComment.Group>
         <SemaComment.Group>
           <Form reply onSubmit={this.createComment}>
@@ -137,4 +138,4 @@ const mapDispatchToProps = {
   createComment
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostPage));

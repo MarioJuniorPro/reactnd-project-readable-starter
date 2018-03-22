@@ -5,8 +5,6 @@ import {
   Comment as SemaComment,
   Button,
   Form,
-  Dropdown,
-  Icon
 } from "semantic-ui-react";
 import Simplert from "react-simplert";
 
@@ -136,8 +134,6 @@ export class Comment extends Component {
     );
   }
 }
-
-const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
   upVoteComment,

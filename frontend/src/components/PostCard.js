@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Simplert from "react-simplert";
 
-import { Card, Icon, Grid, Dropdown, Button } from "semantic-ui-react";
+import { Card, Grid, Button } from "semantic-ui-react";
 
 import VoteScore from "./VoteScore";
 import CommentCount from "./CommentCount";
@@ -25,7 +25,8 @@ export class PostCard extends Component {
   }
 
   static propTypes = {
-    post: PropTypes.shape(postShape)
+    post: PropTypes.shape(postShape),
+    onDelete: PropTypes.func
   };
 
   static defaultProps = {
@@ -55,6 +56,7 @@ export class PostCard extends Component {
   deletePostById = () => {
     this.props.deletePost(this.props.post.id);
     this.setState({ promptDelete: false });
+    this.props.onDelete()
   };
 
   render() {
