@@ -10,6 +10,8 @@ describe('<Comment />', () => {
   const props = {
   }
 
+  const onClose = jest.fn()
+
   let defaultWrapper = null
   let clearWrapper = null
   let store = null
@@ -19,11 +21,11 @@ describe('<Comment />', () => {
     defaultWrapper = (
       <Provider store={store}>
         <Router>
-          <PostFormCreate {...props} />
+          <PostFormCreate {...props} onClose={onClose} />
         </Router>
       </Provider>
     )
-    clearWrapper = <PostFormCreateClear {...props} />
+    clearWrapper = <PostFormCreateClear {...props} onClose={onClose} />
   })
 
   it('should render without crash', () => {
