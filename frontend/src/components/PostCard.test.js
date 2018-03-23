@@ -70,40 +70,4 @@ describe('<PostCard />', () => {
     }
     expect(actual).toHaveProp('post', expected)
   })
-
-  describe('integration tests', () => {
-    it('should display post card optins', () => {
-      expect.assertions(3)
-      const wrapper = shallow(<PostCardClear {...props} />)
-      expect(wrapper.state().promptDelete).toBe(false)
-      wrapper.instance().promptDelete()
-      wrapper.update()
-      expect(wrapper.state().promptDelete).toBe(true)
-      wrapper.instance().promptDeleteClose()
-      wrapper.update()
-      expect(wrapper.state().promptDelete).toBe(false)
-    })
-
-    it('should delete a post', () => {
-      expect.assertions(1)
-      const mockProps = {
-        deletePost: jest.fn()
-      }
-      const wrapper = mount(
-        <Provider store={store}>
-          <Router>
-            <PostCardClear {...props} {...mockProps} />
-          </Router>
-        </Provider>
-      )
-      wrapper
-        .find('PostCard')
-        .first()
-        .instance()
-        .promptDelete()
-      wrapper.update()
-      wrapper.find('.simplert__confirm').simulate('click')
-      expect(mockProps.deletePost).toHaveBeenCalledTimes(1)
-    })
-  })
 })
