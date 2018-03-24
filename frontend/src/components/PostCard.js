@@ -56,7 +56,7 @@ export class PostCard extends Component {
   deletePostById = () => {
     this.props.deletePost(this.props.post.id);
     this.setState({ promptDelete: false });
-    this.props.onDelete()
+    this.props.onDelete && this.props.onDelete()
   };
 
   render() {
